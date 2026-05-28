@@ -2,473 +2,128 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#667eea">
-    <title>Planning Pro - Multi-Entreprise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning Pro</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background: #f5f5f5;
-        }
-
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .login-box {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-box h1 {
-            color: #333;
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 28px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #555;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-        }
-
-        .error-msg {
-            background: #fee;
-            color: #c33;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .success-msg {
-            background: #efe;
-            color: #060;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .app-container {
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        .top-bar {
-            background: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .top-bar h1 {
-            color: #333;
-            font-size: 24px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-badge {
-            background: #667eea;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .btn-logout {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn-logout:hover {
-            background: #dc2626;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .header h2 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 5px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            border-bottom: 2px solid #e0e0e0;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #666;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            color: #2563eb;
-            border-bottom-color: #2563eb;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .form-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-
-        .form-card h3 {
-            color: #333;
-            font-size: 16px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            color: #555;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        input[type="password"],
-        select,
-        textarea {
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.2s;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .btn {
-            padding: 10px 20px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            white-space: nowrap;
-        }
-
-        .btn:hover {
-            background: #1d4ed8;
-        }
-
-        .btn.danger {
-            background: #ef4444;
-        }
-
-        .btn.danger:hover {
-            background: #dc2626;
-        }
-
-        .cards-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-            transition: all 0.2s;
-        }
-
-        .card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-
-        .card h4 {
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-content h3 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        .modal-close {
-            float: right;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #999;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
-
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .cards-list {
-                grid-template-columns: 1fr;
-            }
-            .top-bar {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .login-box {
-                padding: 25px;
-                max-width: 90%;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; }
+        .login-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .login-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); width: 100%; max-width: 400px; }
+        .login-box h1 { color: #333; margin-bottom: 30px; text-align: center; font-size: 28px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #555; font-weight: 600; margin-bottom: 8px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .btn-login { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .error-msg { background: #fee; color: #c33; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; }
+        .app-container { padding: 20px; min-height: 100vh; }
+        .top-bar { background: white; padding: 15px 25px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .top-bar h1 { color: #333; font-size: 24px; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .user-badge { background: #667eea; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .header { background: white; padding: 25px; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .header h2 { color: #333; font-size: 22px; margin-bottom: 5px; }
+        .tabs { display: flex; gap: 10px; margin-top: 15px; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; }
+        .tab-btn { background: none; border: none; padding: 12px 20px; font-size: 14px; font-weight: 600; color: #666; cursor: pointer; border-bottom: 3px solid transparent; }
+        .tab-btn.active { color: #2563eb; border-bottom-color: #2563eb; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .form-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .form-card h3 { color: #333; font-size: 16px; margin-bottom: 20px; font-weight: 600; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .btn { padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn:hover { background: #1d4ed8; }
+        .btn.danger { background: #ef4444; }
+        .cards-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; }
+        .card h4 { color: #333; margin-bottom: 8px; }
+        .card p { font-size: 13px; color: #666; margin-bottom: 10px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; background: #dbeafe; color: #1e40af; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
+        .modal.show { display: flex; }
+        .modal-content { background: white; padding: 25px; border-radius: 10px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        .modal-close { float: right; background: none; border: none; font-size: 24px; color: #999; cursor: pointer; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #999; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        th { background: #f0f4f8; font-weight: 600; padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0; }
+        td { padding: 12px; border-bottom: 1px solid #e0e0e0; font-size: 13px; }
+        .chat-grid { display: grid; grid-template-columns: 250px 1fr; gap: 20px; height: 65vh; }
+        .chat-panel { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
+        .channels-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+        .channel-btn { width: 100%; text-align: left; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .channel-btn.active { background: #1d4ed8; }
+        .messages-container { flex: 1; overflow-y: auto; padding: 15px; background: #f9f9f9; display: flex; flex-direction: column; }
+        .message { margin-bottom: 15px; display: flex; }
+        .message.own { justify-content: flex-end; }
+        .message-bubble { max-width: 70%; padding: 10px; border-radius: 8px; font-size: 13px; }
+        .message.own .message-bubble { background: #2563eb; color: white; }
+        .message.other .message-bubble { background: white; border: 1px solid #ddd; }
+        .input-area { display: flex; gap: 10px; padding: 15px; border-top: 1px solid #e0e0e0; }
+        .input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .cards-list { grid-template-columns: 1fr; } .chat-grid { grid-template-columns: 1fr; height: auto; } }
     </style>
 </head>
 <body>
-    <!-- LOGIN PAGE -->
+    <!-- LOGIN -->
     <div id="loginPage" class="login-container">
         <div class="login-box">
             <h1>📅 Planning Pro</h1>
             <div id="loginMessage"></div>
-            
             <div class="form-group">
-                <label>Utilisateur</label>
+                <label>Identifiant</label>
                 <input type="text" id="loginUsername" placeholder="Votre identifiant">
             </div>
-
             <div class="form-group">
                 <label>Mot de passe</label>
                 <input type="password" id="loginPassword" placeholder="Votre mot de passe">
             </div>
-
             <button class="btn-login" onclick="login()">Connexion</button>
         </div>
     </div>
 
-    <!-- APP PAGE -->
+    <!-- APP -->
     <div id="appPage" style="display: none;">
         <div class="app-container">
             <div class="top-bar">
                 <h1>📅 Planning Pro</h1>
                 <div style="display: flex; gap: 15px; align-items: center;">
-                    <div class="user-info">
-                        <span id="currentUser"></span>
-                        <span class="user-badge" id="roleDisplay"></span>
-                        <button class="btn-logout" onclick="logout()">Déconnexion</button>
-                    </div>
+                    <span id="currentUser"></span>
+                    <span class="user-badge" id="roleDisplay"></span>
+                    <button class="btn-logout" onclick="logout()">Déconnexion</button>
                 </div>
             </div>
 
-            <div class="container">
+            <div style="max-width: 1600px; margin: 0 auto;">
                 <div class="header">
                     <h2 id="pageTitle">Bienvenue</h2>
-                    <p id="pageSubtitle"></p>
                     <div class="tabs" id="mainTabs"></div>
                 </div>
 
-                <!-- ADMIN PANEL -->
+                <!-- ADMIN TAB -->
                 <div id="admin-tab" class="tab-content">
                     <div class="form-card">
-                        <h3>Créer une nouvelle entreprise</h3>
+                        <h3>Créer une entreprise</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Nom de l'entreprise</label>
+                                <label>Nom</label>
                                 <input type="text" id="companyName" placeholder="Ex: BTP Solutions">
                             </div>
                             <div class="form-group">
-                                <label>Chef d'entreprise</label>
-                                <input type="text" id="chefFirstname" placeholder="Prénom">
+                                <label>Prénom du chef</label>
+                                <input type="text" id="chefFirstname" placeholder="Jean">
                             </div>
                             <div class="form-group">
                                 <label>Nom du chef</label>
-                                <input type="text" id="chefLastname" placeholder="Nom">
+                                <input type="text" id="chefLastname" placeholder="Dupont">
                             </div>
                             <div class="form-group">
-                                <label>Email/Identifiant</label>
-                                <input type="text" id="chefUsername" placeholder="Email ou identifiant">
+                                <label>Identifiant</label>
+                                <input type="text" id="chefUsername" placeholder="jean.dupont">
                             </div>
                             <div class="form-group">
                                 <label>Mot de passe</label>
-                                <input type="password" id="chefPassword" placeholder="Mot de passe">
+                                <input type="password" id="chefPassword" placeholder="****">
                             </div>
                             <div style="display: flex; gap: 10px; align-self: flex-end;">
                                 <button class="btn" onclick="createCompany()">+ Créer</button>
@@ -476,9 +131,8 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-card">
-                        <h3>Entreprises gérées</h3>
+                        <h3>Entreprises</h3>
                         <div class="cards-list" id="companiesList"></div>
                     </div>
                 </div>
@@ -486,27 +140,23 @@
                 <!-- PLANNING TAB -->
                 <div id="planning-tab" class="tab-content">
                     <div class="form-card">
-                        <h3>Planning - <span id="currentCompanyName"></span></h3>
+                        <h3>Planning</h3>
                         <div style="display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap;">
-                            <button class="btn" onclick="previousWeek()">← Semaine précédente</button>
-                            <span style="color: #333; font-weight: 600; padding: 8px 16px; background: #e0e7ff; border-radius: 6px;" id="weekDisplay">Semaine</span>
-                            <button class="btn" onclick="nextWeek()">Semaine suivante →</button>
+                            <button class="btn" onclick="previousWeek()">← Précédent</button>
+                            <span style="color: #333; font-weight: 600; padding: 8px 16px; background: #e0e7ff; border-radius: 6px;" id="weekDisplay"></span>
+                            <button class="btn" onclick="nextWeek()">Suivant →</button>
                             <button class="btn" style="background: #10b981;" onclick="printPlanning()">🖨️ Imprimer</button>
                         </div>
-                    </div>
-
-                    <div style="background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow-x: auto;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead id="tableHead"></thead>
-                            <tbody id="tableBody"></tbody>
-                        </table>
+                        <div style="overflow-x: auto;">
+                            <table id="planningTable"></table>
+                        </div>
                     </div>
                 </div>
 
-                <!-- TECHNICIENS TAB -->
+                <!-- TECHNICIENS TAB (CHEF) -->
                 <div id="techniciens-tab" class="tab-content">
                     <div class="form-card">
-                        <h3>Ajouter un technicien</h3>
+                        <h3>Créer un compte technicien</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Prénom</label>
@@ -514,28 +164,35 @@
                             </div>
                             <div class="form-group">
                                 <label>Nom</label>
-                                <input type="text" id="techNom" placeholder="Dupont">
+                                <input type="text" id="techNom" placeholder="Martin">
+                            </div>
+                            <div class="form-group">
+                                <label>Identifiant</label>
+                                <input type="text" id="techUsername" placeholder="jean.martin">
+                            </div>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="password" id="techPassword" placeholder="****">
                             </div>
                             <div style="display: flex; gap: 10px; align-self: flex-end;">
-                                <button class="btn" onclick="addTechnicien()">+ Ajouter</button>
+                                <button class="btn" onclick="addTechnicien()">+ Créer</button>
                                 <button class="btn" style="background: #6b7280;" onclick="clearTechForm()">Effacer</button>
                             </div>
                         </div>
                     </div>
-
                     <div class="form-card">
                         <h3>Techniciens</h3>
                         <div class="cards-list" id="techList"></div>
                     </div>
                 </div>
 
-                <!-- CHANTIERS TAB -->
+                <!-- CHANTIERS TAB (CHEF) -->
                 <div id="chantiers-tab" class="tab-content">
                     <div class="form-card">
-                        <h3>Ajouter un chantier</h3>
+                        <h3>Créer un chantier</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Nom du chantier</label>
+                                <label>Nom</label>
                                 <input type="text" id="chantierName" placeholder="Rénovation CVC">
                             </div>
                             <div class="form-group">
@@ -554,16 +211,14 @@
                                     <option value="Plomberie">Plomberie</option>
                                     <option value="Électricité">Électricité</option>
                                     <option value="Rénovation">Rénovation</option>
-                                    <option value="Maintenance">Maintenance</option>
                                 </select>
                             </div>
                             <div style="display: flex; gap: 10px; align-self: flex-end;">
-                                <button class="btn" onclick="addChantier()">+ Ajouter</button>
+                                <button class="btn" onclick="addChantier()">+ Créer</button>
                                 <button class="btn" style="background: #6b7280;" onclick="clearChantierForm()">Effacer</button>
                             </div>
                         </div>
                     </div>
-
                     <div class="form-card">
                         <h3>Chantiers</h3>
                         <div class="cards-list" id="chantiersList"></div>
@@ -572,17 +227,18 @@
 
                 <!-- MESSAGES TAB -->
                 <div id="messages-tab" class="tab-content">
-                    <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px; height: 70vh;">
-                        <div class="form-card" style="margin-bottom: 0; overflow-y: auto;">
-                            <h3>Chantiers</h3>
-                            <div id="chatChannels" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                    <div class="chat-grid">
+                        <div class="chat-panel" style="padding: 15px;">
+                            <h3 style="margin-bottom: 15px;">Chantiers</h3>
+                            <div class="channels-list" id="chatChannels"></div>
                         </div>
-
-                        <div class="form-card" style="margin-bottom: 0; display: flex; flex-direction: column;">
-                            <h3 id="chatTitle">Sélectionnez un chantier</h3>
-                            <div id="messagesContainer" style="flex: 1; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; margin-bottom: 15px; background: #f9f9f9;"></div>
-                            <div id="chatInputArea" style="display: none; display: flex; gap: 10px;">
-                                <input type="text" id="messageInput" placeholder="Votre message..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px;">
+                        <div class="chat-panel" style="overflow: hidden;">
+                            <div style="padding: 15px; border-bottom: 1px solid #e0e0e0;">
+                                <h3 id="chatTitle">Sélectionnez un chantier</h3>
+                            </div>
+                            <div class="messages-container" id="messagesContainer"></div>
+                            <div class="input-area" id="chatInputArea" style="display: none;">
+                                <input type="text" id="messageInput" placeholder="Votre message...">
                                 <button class="btn" onclick="sendMessage()" style="width: auto;">Envoyer</button>
                             </div>
                         </div>
@@ -591,20 +247,20 @@
 
                 <!-- DOSSIERS TAB -->
                 <div id="dossiers-tab" class="tab-content">
-                    <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px; min-height: 70vh;">
-                        <div class="form-card" style="margin-bottom: 0; overflow-y: auto;">
-                            <h3>Chantiers</h3>
-                            <div id="filesChannels" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                    <div class="chat-grid">
+                        <div class="chat-panel" style="padding: 15px;">
+                            <h3 style="margin-bottom: 15px;">Chantiers</h3>
+                            <div class="channels-list" id="filesChannels"></div>
                         </div>
-
-                        <div class="form-card" style="margin-bottom: 0; display: flex; flex-direction: column;">
-                            <h3 id="filesTitle">Sélectionnez un chantier</h3>
-                            <div id="uploadArea" style="display: none; margin-bottom: 15px; padding: 15px; background: #f0f9ff; border: 2px dashed #2563eb; border-radius: 8px; text-align: center;">
-                                <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileUpload()" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx">
-                                <button class="btn" onclick="document.getElementById('fileInput').click()" style="width: 100%; margin-bottom: 10px;">📤 Télécharger des fichiers</button>
-                                <p style="font-size: 12px; color: #666;">PDF, images, documents...</p>
+                        <div class="chat-panel" style="overflow: hidden;">
+                            <div style="padding: 15px; border-bottom: 1px solid #e0e0e0;">
+                                <h3 id="filesTitle">Sélectionnez un chantier</h3>
                             </div>
-                            <div id="filesContainer" style="flex: 1; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; background: #f9f9f9;"></div>
+                            <div id="uploadArea" style="display: none; padding: 15px; background: #f0f9ff; border-bottom: 1px solid #dbeafe;">
+                                <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileUpload()">
+                                <button class="btn" onclick="document.getElementById('fileInput').click()" style="width: 100%; margin-bottom: 10px;">📤 Télécharger</button>
+                            </div>
+                            <div class="messages-container" id="filesContainer"></div>
                         </div>
                     </div>
                 </div>
@@ -617,21 +273,19 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeAssignModal()">×</button>
             <h3>Assigner le chantier</h3>
-            
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Technicien *</label>
+                    <label>Technicien</label>
                     <select id="modalTech"></select>
                 </div>
                 <div class="form-group">
-                    <label>Date de début *</label>
+                    <label>Date</label>
                     <input type="date" id="modalDate">
                 </div>
             </div>
-
             <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; margin: 15px 0;">
-                <label style="font-weight: 600; color: #333;">Jours de la semaine *</label>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px;">
+                <label style="font-weight: 600;">Jours</label>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
                     <label><input type="checkbox" data-day="1"> Lundi</label>
                     <label><input type="checkbox" data-day="2"> Mardi</label>
                     <label><input type="checkbox" data-day="3"> Mercredi</label>
@@ -639,8 +293,7 @@
                     <label><input type="checkbox" data-day="5"> Vendredi</label>
                 </div>
             </div>
-
-            <div class="modal-actions">
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button class="btn" style="background: #6b7280;" onclick="closeAssignModal()">Annuler</button>
                 <button class="btn" onclick="confirmAssign()">Assigner</button>
             </div>
@@ -648,129 +301,66 @@
     </div>
 
     <script>
-        // ===== DATA =====
-        let currentUser = null;
-        let currentCompanyId = null;
-        let users = [
-            { id: 'admin001', username: 'David souton', password: 'zC97LR53&*', firstname: 'David', lastname: 'Souton', role: 'admin' }
-        ];
-        let companies = [];
-        let technicians = [];
-        let chantiers = [];
-        let assignations = [];
-        let messages = [];
-        let files = [];
-        let currentWeekOffset = 0;
-        let currentChantierID = null;
-        let currentChatChantierId = null;
-        let currentFilesChantierId = null;
-
+        let currentUser = null, currentCompanyId = null, currentWeekOffset = 0, currentChatId = null, currentFileId = null;
+        
+        let users = [{ id: 'admin', username: 'David souton', password: 'zC97LR53&*', firstname: 'David', lastname: 'Souton', role: 'admin' }];
+        let companies = [], technicians = [], chantiers = [], assignations = [], messages = [], files = [];
+        
         const colors = ['#ef4444', '#f59e0b', '#10b981', '#8b5cf6', '#06b6d4', '#ec4899', '#6366f1', '#14b8a6', '#f97316', '#6b21a8'];
 
-        // ===== STORAGE =====
         function loadData() {
-            const stored = localStorage.getItem('planningProData');
-            if (stored) {
-                const data = JSON.parse(stored);
-                users = data.users || users;
-                companies = data.companies || [];
-                technicians = data.technicians || [];
-                chantiers = data.chantiers || [];
-                assignations = data.assignations || [];
-                messages = data.messages || [];
-                files = data.files || [];
-            }
+            const d = localStorage.getItem('ppData');
+            if (d) { const o = JSON.parse(d); users = o.users; companies = o.companies; technicians = o.technicians; chantiers = o.chantiers; assignations = o.assignations; messages = o.messages; files = o.files; }
         }
 
         function saveData() {
-            localStorage.setItem('planningProData', JSON.stringify({
-                users, companies, technicians, chantiers, assignations, messages, files
-            }));
+            localStorage.setItem('ppData', JSON.stringify({ users, companies, technicians, chantiers, assignations, messages, files }));
         }
 
-        // ===== AUTH =====
         function login() {
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const msgDiv = document.getElementById('loginMessage');
-
             loadData();
-
-            const user = users.find(u => u.username === username && u.password === password);
+            const u = document.getElementById('loginUsername').value.trim();
+            const p = document.getElementById('loginPassword').value;
+            const user = users.find(x => x.username === u && x.password === p);
             
             if (!user) {
-                msgDiv.innerHTML = '<div class="error-msg">Identifiant ou mot de passe incorrect</div>';
+                document.getElementById('loginMessage').innerHTML = '<div class="error-msg">Identifiant ou mot de passe incorrect</div>';
                 return;
             }
 
             currentUser = user;
-            msgDiv.innerHTML = '';
-            
-            if (user.role === 'admin') {
-                currentCompanyId = null;
-            } else {
-                const company = companies.find(c => c.chefId === user.id);
-                if (!company) {
-                    msgDiv.innerHTML = '<div class="error-msg">Entreprise non trouvée</div>';
-                    return;
-                }
-                currentCompanyId = company.id;
-            }
-            
+            if (user.role === 'chef') currentCompanyId = companies.find(c => c.chefId === user.id)?.id;
+            else if (user.role === 'technicien') currentCompanyId = technicians.find(t => t.userId === user.id)?.companyId;
+
             showApp();
         }
 
         function logout() {
             currentUser = null;
-            currentCompanyId = null;
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('appPage').style.display = 'none';
             document.getElementById('loginUsername').value = '';
             document.getElementById('loginPassword').value = '';
         }
 
-        // ===== ADMIN =====
         function createCompany() {
             const name = document.getElementById('companyName').value.trim();
-            const firstname = document.getElementById('chefFirstname').value.trim();
-            const lastname = document.getElementById('chefLastname').value.trim();
-            const username = document.getElementById('chefUsername').value.trim();
-            const password = document.getElementById('chefPassword').value;
+            const fn = document.getElementById('chefFirstname').value.trim();
+            const ln = document.getElementById('chefLastname').value.trim();
+            const un = document.getElementById('chefUsername').value.trim();
+            const pw = document.getElementById('chefPassword').value;
 
-            if (!name || !firstname || !lastname || !username || !password) {
-                alert('⚠️ Remplissez tous les champs');
-                return;
-            }
+            if (!name || !fn || !ln || !un || !pw) { alert('Remplissez tous les champs'); return; }
+            if (users.find(u => u.username === un)) { alert('Identifiant déjà utilisé'); return; }
 
-            if (users.find(u => u.username === username)) {
-                alert('⚠️ Cet identifiant existe déjà');
-                return;
-            }
-
-            const chefId = 'chef_' + Date.now();
-            const companyId = 'company_' + Date.now();
-
-            users.push({
-                id: chefId,
-                username,
-                password,
-                firstname,
-                lastname,
-                role: 'chef',
-                companyId
-            });
-
-            companies.push({
-                id: companyId,
-                name,
-                chefId,
-                createdAt: new Date().toISOString()
-            });
-
+            const id = 'chef_' + Date.now();
+            const cid = 'company_' + Date.now();
+            users.push({ id, username: un, password: pw, firstname: fn, lastname: ln, role: 'chef', companyId: cid });
+            companies.push({ id: cid, name, chefId: id });
             saveData();
             clearCompanyForm();
             renderCompaniesList();
-            alert('✅ Entreprise créée ! Le chef peut maintenant se connecter avec : ' + username);
+            alert('✅ Entreprise créée!');
         }
 
         function clearCompanyForm() {
@@ -783,324 +373,198 @@
 
         function renderCompaniesList() {
             loadData();
-            const list = document.getElementById('companiesList');
-            
-            if (companies.length === 0) {
-                list.innerHTML = '<div class="empty-state">Aucune entreprise créée</div>';
-                return;
-            }
-
-            list.innerHTML = companies.map(company => {
-                const chef = users.find(u => u.id === company.chefId);
-                return `
-                    <div class="card">
-                        <h4>${company.name}</h4>
-                        <p><strong>Chef:</strong> ${chef?.firstname} ${chef?.lastname}</p>
-                        <p><strong>Email:</strong> ${chef?.username}</p>
-                        <button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteCompany('${company.id}')">Supprimer</button>
-                    </div>
-                `;
-            }).join('');
+            const html = companies.length === 0 ? '<div class="empty-state">Aucune entreprise</div>' : 
+                companies.map(c => {
+                    const chef = users.find(u => u.id === c.chefId);
+                    return `<div class="card"><h4>${c.name}</h4><p>Chef: ${chef?.firstname} ${chef?.lastname}</p><p>Email: ${chef?.username}</p><button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteCompany('${c.id}')">Supprimer</button></div>`;
+                }).join('');
+            document.getElementById('companiesList').innerHTML = html;
         }
 
-        function deleteCompany(companyId) {
-            if (!confirm('Êtes-vous sûr ?')) return;
-            
-            const company = companies.find(c => c.id === companyId);
-            users = users.filter(u => u.id !== company.chefId);
-            companies = companies.filter(c => c.id !== companyId);
-            technicians = technicians.filter(t => t.companyId !== companyId);
-            chantiers = chantiers.filter(c => c.companyId !== companyId);
-            
+        function deleteCompany(cid) {
+            if (!confirm('Supprimer?')) return;
+            const c = companies.find(x => x.id === cid);
+            users = users.filter(u => u.id !== c.chefId && u.companyId !== cid);
+            companies = companies.filter(x => x.id !== cid);
+            technicians = technicians.filter(t => t.companyId !== cid);
+            chantiers = chantiers.filter(x => x.companyId !== cid);
             saveData();
             renderCompaniesList();
         }
 
-        // ===== APP =====
         function showApp() {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('appPage').style.display = 'block';
-            
             document.getElementById('currentUser').textContent = currentUser.firstname + ' ' + currentUser.lastname;
-            document.getElementById('roleDisplay').textContent = currentUser.role === 'admin' ? 'Admin' : 'Chef';
-            
+            document.getElementById('roleDisplay').textContent = currentUser.role === 'admin' ? 'Admin' : currentUser.role === 'chef' ? 'Chef' : 'Technicien';
             setupTabs();
-            
             if (currentUser.role === 'admin') {
-                document.getElementById('pageTitle').textContent = 'Admin - Gestion des Entreprises';
-                document.getElementById('pageSubtitle').textContent = 'Créez et gérez les entreprises';
+                document.getElementById('pageTitle').textContent = 'Admin - Entreprises';
                 renderCompaniesList();
             } else {
-                const company = companies.find(c => c.id === currentCompanyId);
-                document.getElementById('pageTitle').textContent = company?.name || 'Planning';
-                document.getElementById('pageSubtitle').textContent = 'Gérez vos chantiers et équipes';
-                document.getElementById('currentCompanyName').textContent = company?.name;
-                renderWeek();
+                const c = companies.find(x => x.id === currentCompanyId);
+                document.getElementById('pageTitle').textContent = c?.name;
+                renderPlanning();
             }
         }
 
         function setupTabs() {
-            const container = document.getElementById('mainTabs');
-            container.innerHTML = '';
-
-            const tabs = currentUser.role === 'admin' 
-                ? [{ id: 'admin', label: 'Entreprises' }]
-                : [
+            const tabs = currentUser.role === 'admin' ? [{ id: 'admin', label: 'Entreprises' }] :
+                currentUser.role === 'chef' ? [
+                    { id: 'planning', label: 'Planning' },
+                    { id: 'techniciens', label: 'Techniciens' },
+                    { id: 'chantiers', label: 'Chantiers' },
+                    { id: 'messages', label: 'Messages' },
+                    { id: 'dossiers', label: 'Dossiers' }
+                ] : [
                     { id: 'planning', label: 'Planning' },
                     { id: 'messages', label: 'Messages' },
-                    { id: 'dossiers', label: 'Dossiers' },
-                    { id: 'techniciens', label: 'Techniciens' },
-                    { id: 'chantiers', label: 'Chantiers' }
+                    { id: 'dossiers', label: 'Dossiers' }
                 ];
 
-            tabs.forEach(tab => {
-                const btn = document.createElement('button');
-                btn.className = 'tab-btn' + (tab.id === (currentUser.role === 'admin' ? 'admin' : 'planning') ? ' active' : '');
-                btn.textContent = tab.label;
-                btn.onclick = () => switchTab(tab.id);
-                container.appendChild(btn);
-            });
+            const html = tabs.map(t => `<button class="tab-btn ${t.id === (currentUser.role === 'admin' ? 'admin' : 'planning') ? 'active' : ''}" onclick="switchTab('${t.id}')">${t.label}</button>`).join('');
+            document.getElementById('mainTabs').innerHTML = html;
         }
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabName + '-tab').classList.add('active');
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+            document.getElementById(id + '-tab').classList.add('active');
             event.target.classList.add('active');
 
-            if (tabName === 'planning') renderWeek();
-            else if (tabName === 'techniciens') renderTechList();
-            else if (tabName === 'chantiers') renderChantiersList();
-            else if (tabName === 'messages') renderMessagesTab();
-            else if (tabName === 'dossiers') renderDossiersTab();
+            if (id === 'planning') renderPlanning();
+            else if (id === 'techniciens') renderTechList();
+            else if (id === 'chantiers') renderChantiersList();
+            else if (id === 'messages') renderMessagesTab();
+            else if (id === 'dossiers') renderDossiersTab();
         }
 
-        // ===== PLANNING =====
-        function getMonday(date) {
-            const d = new Date(date);
-            const day = d.getDay();
-            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-            return new Date(d.setDate(diff));
+        function getMonday(d) {
+            const dt = new Date(d);
+            const day = dt.getDay();
+            const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(dt.setDate(diff));
         }
 
         function getWeekDates() {
-            const today = new Date();
-            const monday = getMonday(today);
-            monday.setDate(monday.getDate() + (currentWeekOffset * 7));
-            
+            const mon = getMonday(new Date());
+            mon.setDate(mon.getDate() + (currentWeekOffset * 7));
             const week = [];
-            for (let i = 0; i < 5; i++) {
-                const date = new Date(monday);
-                date.setDate(date.getDate() + i);
-                week.push(date);
-            }
+            for (let i = 0; i < 5; i++) { const d = new Date(mon); d.setDate(d.getDate() + i); week.push(d); }
             return week;
         }
 
-        function formatDate(date) {
-            return date.toISOString().split('T')[0];
+        function formatDate(d) { return d.toISOString().split('T')[0]; }
+
+        function getTechColor(id) {
+            const idx = technicians.filter(t => t.companyId === currentCompanyId).findIndex(t => t.id === id);
+            return colors[idx % colors.length];
         }
 
-        function getTechColor(techId) {
-            const index = technicians.filter(t => t.companyId === currentCompanyId).findIndex(t => t.id === techId);
-            return colors[index % colors.length];
-        }
-
-        function renderWeek() {
+        function renderPlanning() {
             loadData();
             const week = getWeekDates();
             const today = formatDate(new Date());
-            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
-            const companyAssigns = assignations.filter(a => a.companyId === currentCompanyId);
+            const techs = technicians.filter(t => t.companyId === currentCompanyId);
+            const assigns = assignations.filter(a => a.companyId === currentCompanyId);
 
-            const weekDisplay = document.getElementById('weekDisplay');
-            weekDisplay.textContent = `${week[0].toLocaleDateString('fr-FR')} au ${week[4].toLocaleDateString('fr-FR')}`;
+            document.getElementById('weekDisplay').textContent = week[0].toLocaleDateString('fr-FR') + ' au ' + week[4].toLocaleDateString('fr-FR');
 
-            const tableHead = document.getElementById('tableHead');
-            let html = '<tr><th style="padding: 12px; text-align: left; background: #f9f9f9; font-weight: 600; width: 150px;">Technicien</th>';
-            week.forEach(date => {
-                const dayName = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'][date.getDay()];
-                const isToday = formatDate(date) === today;
-                html += `<th style="padding: 12px; text-align: center; border: 1px solid #e0e0e0; background: ${isToday ? '#fef3c7' : '#f0f4f8'};"><strong>${dayName}</strong><br>${date.getDate()}/${date.getMonth() + 1}</th>`;
+            let html = '<tr><th style="width: 150px;">Technicien</th>';
+            week.forEach(d => {
+                const day = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'][d.getDay()];
+                html += `<th style="background: ${formatDate(d) === today ? '#fef3c7' : '#f0f4f8'};"><strong>${day}</strong><br>${d.getDate()}/${d.getMonth() + 1}</th>`;
             });
             html += '</tr>';
-            tableHead.innerHTML = html;
 
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = companyTechs.map(tech => {
-                const color = getTechColor(tech.id);
-                let row = `<tr><td style="padding: 12px; font-weight: 600; background: #f9f9f9; width: 150px;"><span style="display: inline-block; width: 10px; height: 10px; background: ${color}; border-radius: 50%; margin-right: 8px;"></span>${tech.prenom} ${tech.nom}</td>`;
+            techs.forEach(t => {
+                const color = getTechColor(t.id);
+                html += `<tr><td style="background: #f9f9f9; font-weight: 600;"><span style="display: inline-block; width: 8px; height: 8px; background: ${color}; border-radius: 50%; margin-right: 8px;"></span>${t.prenom} ${t.nom}</td>`;
                 
-                week.forEach(date => {
-                    const dateStr = formatDate(date);
-                    const isToday = dateStr === today;
-                    const dayAssigns = companyAssigns.filter(a => a.tech === tech.id && a.date === dateStr);
-                    
-                    row += `<td style="padding: 10px; border: 1px solid #e0e0e0; height: 100px; vertical-align: top; background: ${isToday ? '#fffbf0' : 'white'};text-align: center;">`;
-                    dayAssigns.forEach(a => {
-                        const chant = chantiers.find(c => c.id === a.chantierId);
-                        if (chant) {
-                            row += `<div style="background: white; border: 2px solid ${color}; border-radius: 5px; padding: 6px; margin-bottom: 4px; font-size: 11px; font-weight: 600;">${chant.nom}</div>`;
-                        }
-                    });
-                    row += '</td>';
-                });
-                row += '</tr>';
-                return row;
-            }).join('');
-        }
-
-        function previousWeek() {
-            currentWeekOffset--;
-            renderWeek();
-        }
-
-        function nextWeek() {
-            currentWeekOffset++;
-            renderWeek();
-        }
-
-        function printPlanning() {
-            const week = getWeekDates();
-            const printWindow = window.open('', '', 'height=600,width=900');
-            
-            let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Planning</title>
-            <style>body { font-family: Arial; padding: 20px; } table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #333; padding: 12px; text-align: left; font-size: 12px; }
-            th { background: #f0f4f8; font-weight: bold; text-align: center; }
-            td { height: 80px; vertical-align: top; } .tech-col { background: #f9f9f9; font-weight: 600; width: 150px; }
-            </style></head><body><h1>Planning</h1><table><thead><tr><th class="tech-col">Technicien</th>`;
-            
-            week.forEach(date => {
-                const dayName = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'][date.getDay()];
-                html += `<th>${dayName.substring(0, 3)}<br>${date.getDate()}/${date.getMonth() + 1}</th>`;
-            });
-            
-            html += '</tr></thead><tbody>';
-            
-            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
-            const companyAssigns = assignations.filter(a => a.companyId === currentCompanyId);
-            
-            companyTechs.forEach(tech => {
-                const color = getTechColor(tech.id);
-                html += `<tr><td class="tech-col">${tech.prenom} ${tech.nom}</td>`;
-                
-                week.forEach(date => {
-                    const dateStr = formatDate(date);
-                    const dayAssigns = companyAssigns.filter(a => a.tech === tech.id && a.date === dateStr);
-                    
-                    html += '<td>';
-                    dayAssigns.forEach(a => {
-                        const chant = chantiers.find(c => c.id === a.chantierId);
-                        if (chant) {
-                            html += `<div style="border-left: 3px solid ${color}; padding-left: 8px; margin-bottom: 6px; font-weight: 600;">${chant.nom}</div>`;
-                        }
+                week.forEach(d => {
+                    const ds = formatDate(d);
+                    const as = assigns.filter(a => a.tech === t.id && a.date === ds);
+                    html += `<td style="background: ${ds === today ? '#fffbf0' : 'white'}; text-align: center;">`;
+                    as.forEach(a => {
+                        const ch = chantiers.find(c => c.id === a.chantierId);
+                        if (ch) html += `<div style="background: ${color}; color: white; padding: 4px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-bottom: 2px;">${ch.nom}</div>`;
                     });
                     html += '</td>';
                 });
-                
                 html += '</tr>';
             });
-            
-            html += '</tbody></table></body></html>';
-            
-            printWindow.document.write(html);
-            printWindow.document.close();
-            setTimeout(() => printWindow.print(), 250);
+
+            document.getElementById('planningTable').innerHTML = html;
         }
 
-        // ===== TECHNICIENS =====
+        function previousWeek() { currentWeekOffset--; renderPlanning(); }
+        function nextWeek() { currentWeekOffset++; renderPlanning(); }
+
+        function printPlanning() {
+            const w = window.open();
+            let h = '<html><head><style>table{border-collapse:collapse;width:100%}th,td{border:1px solid #333;padding:10px}</style></head><body><h1>Planning</h1><table>';
+            h += document.getElementById('planningTable').innerHTML;
+            h += '</table></body></html>';
+            w.document.write(h);
+            w.document.close();
+            w.print();
+        }
+
         function addTechnicien() {
-            const prenom = document.getElementById('techPrenom').value.trim();
-            const nom = document.getElementById('techNom').value.trim();
+            const p = document.getElementById('techPrenom').value.trim();
+            const n = document.getElementById('techNom').value.trim();
+            const u = document.getElementById('techUsername').value.trim();
+            const pw = document.getElementById('techPassword').value;
 
-            if (!prenom || !nom) {
-                alert('⚠️ Remplissez le prénom et le nom');
-                return;
-            }
+            if (!p || !n || !u || !pw) { alert('Remplissez tous les champs'); return; }
+            if (users.find(x => x.username === u)) { alert('Identifiant déjà utilisé'); return; }
 
-            technicians.push({
-                id: Date.now().toString(),
-                companyId: currentCompanyId,
-                prenom,
-                nom,
-                createdAt: new Date().toISOString()
-            });
-
+            const uid = 'tech_' + Date.now();
+            const tid = 'technicien_' + Date.now();
+            users.push({ id: uid, username: u, password: pw, firstname: p, lastname: n, role: 'technicien' });
+            technicians.push({ id: tid, userId: uid, companyId: currentCompanyId, prenom: p, nom: n });
             saveData();
-            document.getElementById('techPrenom').value = '';
-            document.getElementById('techNom').value = '';
+            clearTechForm();
             renderTechList();
-            updateTechnicienSelect();
+            alert('✅ Technicien créé!');
         }
 
         function clearTechForm() {
             document.getElementById('techPrenom').value = '';
             document.getElementById('techNom').value = '';
+            document.getElementById('techUsername').value = '';
+            document.getElementById('techPassword').value = '';
         }
 
         function renderTechList() {
             loadData();
-            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
-            const list = document.getElementById('techList');
-            
-            if (companyTechs.length === 0) {
-                list.innerHTML = '<div class="empty-state">Aucun technicien</div>';
-                return;
-            }
-
-            list.innerHTML = companyTechs.map(tech => `
-                <div class="card">
-                    <h4>${tech.prenom} ${tech.nom}</h4>
-                    <button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteTechnicien('${tech.id}')">Supprimer</button>
-                </div>
-            `).join('');
+            const ts = technicians.filter(t => t.companyId === currentCompanyId);
+            const html = ts.length === 0 ? '<div class="empty-state">Aucun technicien</div>' :
+                ts.map(t => {
+                    const u = users.find(x => x.id === t.userId);
+                    return `<div class="card"><h4>${t.prenom} ${t.nom}</h4><p>Identifiant: ${u?.username}</p><button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteTech('${t.id}')">Supprimer</button></div>`;
+                }).join('');
+            document.getElementById('techList').innerHTML = html;
         }
 
-        function deleteTechnicien(id) {
-            if (!confirm('Supprimer ce technicien ?')) return;
-            technicians = technicians.filter(t => t.id !== id);
-            assignations = assignations.filter(a => a.tech !== id);
+        function deleteTech(id) {
+            if (!confirm('Supprimer?')) return;
+            const t = technicians.find(x => x.id === id);
+            users = users.filter(u => u.id !== t.userId);
+            technicians = technicians.filter(x => x.id !== id);
             saveData();
             renderTechList();
-            renderWeek();
         }
 
-        function updateTechnicienSelect() {
-            loadData();
-            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
-            const select = document.getElementById('modalTech');
-            select.innerHTML = '<option value="">-- Sélectionner --</option>';
-            companyTechs.forEach(tech => {
-                const option = document.createElement('option');
-                option.value = tech.id;
-                option.textContent = `${tech.prenom} ${tech.nom}`;
-                select.appendChild(option);
-            });
-        }
-
-        // ===== CHANTIERS =====
         function addChantier() {
-            const nom = document.getElementById('chantierName').value.trim();
-            const address = document.getElementById('chantierAddress').value.trim();
-            const duration = parseFloat(document.getElementById('chantierDuration').value);
-            const type = document.getElementById('chantierType').value;
+            const n = document.getElementById('chantierName').value.trim();
+            const a = document.getElementById('chantierAddress').value.trim();
+            const d = document.getElementById('chantierDuration').value;
+            const t = document.getElementById('chantierType').value;
 
-            if (!nom || !address || !duration || !type) {
-                alert('⚠️ Remplissez tous les champs');
-                return;
-            }
+            if (!n || !a || !d || !t) { alert('Remplissez tous les champs'); return; }
 
-            chantiers.push({
-                id: Date.now().toString(),
-                companyId: currentCompanyId,
-                nom,
-                address,
-                duration,
-                type,
-                createdAt: new Date().toISOString()
-            });
-
+            chantiers.push({ id: Date.now().toString(), companyId: currentCompanyId, nom: n, address: a, duration: d, type: t });
             saveData();
             clearChantierForm();
             renderChantiersList();
@@ -1115,280 +579,145 @@
 
         function renderChantiersList() {
             loadData();
-            const companyChan = chantiers.filter(c => c.companyId === currentCompanyId);
-            const list = document.getElementById('chantiersList');
-            
-            if (companyChan.length === 0) {
-                list.innerHTML = '<div class="empty-state">Aucun chantier</div>';
-                return;
-            }
-
-            list.innerHTML = companyChan.map(chantier => `
-                <div class="card">
-                    <h4>${chantier.nom}</h4>
-                    <p><strong>Adresse:</strong> ${chantier.address}</p>
-                    <p><strong>Durée:</strong> ${chantier.duration} jour(s)</p>
-                    <p><span class="badge">${chantier.type}</span></p>
-                    <button class="btn" style="width: 100%; margin-bottom: 6px;" onclick="openAssignModal('${chantier.id}')">Assigner</button>
-                    <button class="btn danger" style="width: 100%;" onclick="deleteChantier('${chantier.id}')">Supprimer</button>
-                </div>
-            `).join('');
+            const cs = chantiers.filter(c => c.companyId === currentCompanyId);
+            const html = cs.length === 0 ? '<div class="empty-state">Aucun chantier</div>' :
+                cs.map(c => `<div class="card"><h4>${c.nom}</h4><p>Adresse: ${c.address}</p><p>Durée: ${c.duration} jour(s)</p><p><span class="badge">${c.type}</span></p>${currentUser.role === 'chef' ? `<button class="btn" style="width: 100%; margin-bottom: 6px;" onclick="openAssignModal('${c.id}')">Assigner</button><button class="btn danger" style="width: 100%;" onclick="deleteChantier('${c.id}')">Supprimer</button>` : ''}</div>`).join('');
+            document.getElementById('chantiersList').innerHTML = html;
         }
 
-        function openAssignModal(chantierId) {
-            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
-            if (companyTechs.length === 0) {
-                alert('⚠️ Ajoutez d\'abord des techniciens !');
-                return;
-            }
-
-            currentChantierID = chantierId;
-            document.getElementById('modalTech').value = '';
+        function openAssignModal(cid) {
+            const ts = technicians.filter(t => t.companyId === currentCompanyId);
+            if (ts.length === 0) { alert('Ajoutez des techniciens'); return; }
+            document.getElementById('modalTech').innerHTML = '<option value="">-- Sélectionner --</option>' + ts.map(t => `<option value="${t.id}">${t.prenom} ${t.nom}</option>`).join('');
             document.getElementById('modalDate').valueAsDate = new Date();
             document.querySelectorAll('[data-day]').forEach(cb => cb.checked = false);
-            
             document.getElementById('assignModal').classList.add('show');
+            currentChantierID = cid;
         }
 
-        function closeAssignModal() {
-            document.getElementById('assignModal').classList.remove('show');
-        }
+        function closeAssignModal() { document.getElementById('assignModal').classList.remove('show'); }
 
         function confirmAssign() {
-            const tech = document.getElementById('modalTech').value;
-            const dateStr = document.getElementById('modalDate').value;
-            const selectedDays = Array.from(document.querySelectorAll('[data-day]:checked')).map(cb => parseInt(cb.getAttribute('data-day')));
+            const t = document.getElementById('modalTech').value;
+            const d = document.getElementById('modalDate').value;
+            const days = Array.from(document.querySelectorAll('[data-day]:checked')).map(cb => parseInt(cb.getAttribute('data-day')));
 
-            if (!tech || !dateStr || selectedDays.length === 0) {
-                alert('⚠️ Remplissez tous les champs');
-                return;
-            }
+            if (!t || !d || days.length === 0) { alert('Remplissez tous les champs'); return; }
 
-            const weekStart = getMonday(new Date(dateStr));
-
+            const ws = getMonday(new Date(d));
             for (let i = 0; i < 5; i++) {
-                const date = new Date(weekStart);
-                date.setDate(date.getDate() + i);
-                const dayOfWeek = date.getDay();
-
-                if (selectedDays.includes(dayOfWeek)) {
-                    assignations.push({
-                        id: Date.now().toString() + Math.random(),
-                        companyId: currentCompanyId,
-                        chantierId: currentChantierID,
-                        tech: tech,
-                        date: formatDate(date)
-                    });
+                const dt = new Date(ws);
+                dt.setDate(dt.getDate() + i);
+                if (days.includes(dt.getDay())) {
+                    assignations.push({ id: Date.now().toString(), companyId: currentCompanyId, chantierId: currentChantierID, tech: t, date: formatDate(dt) });
                 }
             }
-
             saveData();
             closeAssignModal();
-            renderWeek();
+            renderPlanning();
         }
 
         function deleteChantier(id) {
-            if (!confirm('Supprimer ce chantier ?')) return;
+            if (!confirm('Supprimer?')) return;
             chantiers = chantiers.filter(c => c.id !== id);
-            assignations = assignations.filter(a => a.chantierId !== id);
             saveData();
             renderChantiersList();
-            renderWeek();
         }
 
-        // ===== MESSAGES =====
         function renderMessagesTab() {
             loadData();
-            const companyChan = chantiers.filter(c => c.companyId === currentCompanyId);
-            const container = document.getElementById('chatChannels');
-            
-            if (companyChan.length === 0) {
-                container.innerHTML = '<div class="empty-state">Aucun chantier</div>';
-                return;
-            }
-
-            container.innerHTML = companyChan.map(chantier => `
-                <button class="btn" style="width: 100%; text-align: left; padding: 10px; background: ${currentChatChantierId === chantier.id ? '#1d4ed8' : '#6b7280'};" onclick="openChat('${chantier.id}')">
-                    📍 ${chantier.nom}
-                </button>
-            `).join('');
+            const cs = chantiers.filter(c => c.companyId === currentCompanyId);
+            const html = cs.length === 0 ? '<div class="empty-state">Aucun chantier</div>' :
+                cs.map(c => `<button class="channel-btn ${currentChatId === c.id ? 'active' : ''}" onclick="openChat('${c.id}')" style="background: ${currentChatId === c.id ? '#1d4ed8' : '#6b7280'};">📍 ${c.nom}</button>`).join('');
+            document.getElementById('chatChannels').innerHTML = html;
         }
 
-        function openChat(chantierId) {
+        function openChat(cid) {
             loadData();
-            currentChatChantierId = chantierId;
-            const chantier = chantiers.find(c => c.id === chantierId);
-            
-            document.getElementById('chatTitle').textContent = `💬 ${chantier.nom}`;
+            currentChatId = cid;
+            const c = chantiers.find(x => x.id === cid);
+            document.getElementById('chatTitle').textContent = '💬 ' + c.nom;
             document.getElementById('chatInputArea').style.display = 'flex';
-            
             renderMessages();
             renderMessagesTab();
         }
 
         function renderMessages() {
             loadData();
-            const container = document.getElementById('messagesContainer');
-            const chatMessages = messages.filter(m => m.companyId === currentCompanyId && m.chantierId === currentChatChantierId);
-            
-            if (chatMessages.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #999;">Aucun message</div>';
-                return;
-            }
-
-            container.innerHTML = chatMessages.map(msg => {
-                const sender = users.find(u => u.id === msg.userId);
-                const isCurrentUser = msg.userId === currentUser.id;
-                const time = new Date(msg.timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-                
-                return `
-                    <div style="margin-bottom: 15px; ${isCurrentUser ? 'text-align: right;' : ''}">
-                        <div style="display: inline-block; max-width: 70%; ${isCurrentUser ? 'background: #2563eb; color: white;' : 'background: white; border: 1px solid #ddd;'} padding: 10px; border-radius: 8px;">
-                            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; ${isCurrentUser ? 'opacity: 0.9;' : 'color: #666;'}\">${sender?.firstname} ${sender?.lastname}</div>
-                            <div>${msg.text}</div>
-                            <div style="font-size: 11px; ${isCurrentUser ? 'opacity: 0.8;' : 'color: #999;'} margin-top: 4px;">${time}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            container.scrollTop = container.scrollHeight;
+            const ms = messages.filter(m => m.companyId === currentCompanyId && m.chantierId === currentChatId);
+            const html = ms.length === 0 ? '<div style="text-align: center; color: #999;">Aucun message</div>' :
+                ms.map(m => {
+                    const s = users.find(u => u.id === m.userId);
+                    const is = m.userId === currentUser.id;
+                    return `<div class="message ${is ? 'own' : 'other'}"><div class="message-bubble"><div style="font-size: 11px; font-weight: 600; margin-bottom: 4px;">${s?.firstname} ${s?.lastname}</div>${m.text}</div></div>`;
+                }).join('');
+            const c = document.getElementById('messagesContainer');
+            c.innerHTML = html;
+            c.scrollTop = c.scrollHeight;
         }
 
         function sendMessage() {
-            if (!currentChatChantierId) {
-                alert('Sélectionnez un chantier');
-                return;
-            }
-
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
-
-            if (!text) return;
-
-            messages.push({
-                id: Date.now().toString(),
-                companyId: currentCompanyId,
-                chantierId: currentChatChantierId,
-                userId: currentUser.id,
-                text: text,
-                timestamp: new Date().toISOString()
-            });
-
+            if (!currentChatId) return;
+            const t = document.getElementById('messageInput').value.trim();
+            if (!t) return;
+            messages.push({ id: Date.now().toString(), companyId: currentCompanyId, chantierId: currentChatId, userId: currentUser.id, text: t });
             saveData();
-            input.value = '';
+            document.getElementById('messageInput').value = '';
             renderMessages();
         }
 
-        // ===== DOSSIERS =====
         function renderDossiersTab() {
             loadData();
-            const companyChan = chantiers.filter(c => c.companyId === currentCompanyId);
-            const container = document.getElementById('filesChannels');
-            
-            if (companyChan.length === 0) {
-                container.innerHTML = '<div class="empty-state">Aucun chantier</div>';
-                return;
-            }
-
-            container.innerHTML = companyChan.map(chantier => `
-                <button class="btn" style="width: 100%; text-align: left; padding: 10px; background: ${currentFilesChantierId === chantier.id ? '#1d4ed8' : '#6b7280'};" onclick="openFilesChat('${chantier.id}')">
-                    📁 ${chantier.nom}
-                </button>
-            `).join('');
+            const cs = chantiers.filter(c => c.companyId === currentCompanyId);
+            const html = cs.length === 0 ? '<div class="empty-state">Aucun chantier</div>' :
+                cs.map(c => `<button class="channel-btn ${currentFileId === c.id ? 'active' : ''}" onclick="openFiles('${c.id}')" style="background: ${currentFileId === c.id ? '#1d4ed8' : '#6b7280'};">📁 ${c.nom}</button>`).join('');
+            document.getElementById('filesChannels').innerHTML = html;
         }
 
-        function openFilesChat(chantierId) {
+        function openFiles(cid) {
             loadData();
-            currentFilesChantierId = chantierId;
-            const chantier = chantiers.find(c => c.id === chantierId);
-            
-            document.getElementById('filesTitle').textContent = `📁 ${chantier.nom}`;
+            currentFileId = cid;
+            const c = chantiers.find(x => x.id === cid);
+            document.getElementById('filesTitle').textContent = '📁 ' + c.nom;
             document.getElementById('uploadArea').style.display = 'block';
-            
             renderFiles();
             renderDossiersTab();
         }
 
         function handleFileUpload() {
-            const fileInput = document.getElementById('fileInput');
-            const filesList = fileInput.files;
-
-            if (filesList.length === 0) return;
-
-            for (let file of filesList) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    files.push({
-                        id: Date.now().toString() + Math.random(),
-                        companyId: currentCompanyId,
-                        chantierId: currentFilesChantierId,
-                        name: file.name,
-                        type: file.type,
-                        size: file.size,
-                        data: e.target.result,
-                        uploadedAt: new Date().toISOString(),
-                        uploadedBy: currentUser.firstname + ' ' + currentUser.lastname
-                    });
+            const f = document.getElementById('fileInput').files;
+            for (let file of f) {
+                const r = new FileReader();
+                r.onload = (e) => {
+                    files.push({ id: Date.now().toString(), companyId: currentCompanyId, chantierId: currentFileId, name: file.name, size: file.size, data: e.target.result });
                     saveData();
                     renderFiles();
                 };
-                reader.readAsDataURL(file);
+                r.readAsDataURL(file);
             }
-
-            fileInput.value = '';
         }
 
         function renderFiles() {
             loadData();
-            const container = document.getElementById('filesContainer');
-            const chanterFiles = files.filter(f => f.companyId === currentCompanyId && f.chantierId === currentFilesChantierId);
-            
-            if (chanterFiles.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #999;">Aucun fichier</div>';
-                return;
-            }
-
-            container.innerHTML = chanterFiles.map(file => {
-                const uploadDate = new Date(file.uploadedAt).toLocaleDateString('fr-FR');
-                const sizeKB = (file.size / 1024).toFixed(2);
-                const icon = file.type.includes('image') ? '🖼️' : file.type.includes('pdf') ? '📄' : '📎';
-                
-                return `
-                    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
-                        <div style="font-weight: 600; color: #333; margin-bottom: 4px;">${icon} ${file.name}</div>
-                        <div style="font-size: 12px; color: #666; margin-bottom: 10px;">${sizeKB} KB • ${file.uploadedBy} • ${uploadDate}</div>
-                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <a href="${file.data}" download="${file.name}" class="btn" style="width: auto; padding: 6px 12px; font-size: 12px; margin: 0;">⬇️ Télécharger</a>
-                            <a href="${file.data}" target="_blank" class="btn" style="width: auto; padding: 6px 12px; font-size: 12px; margin: 0; background: #10b981;">👁️ Ouvrir</a>
-                            <button class="btn danger" style="width: auto; padding: 6px 12px; font-size: 12px; margin: 0;" onclick="deleteFile('${file.id}')">🗑️</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            const fs = files.filter(f => f.companyId === currentCompanyId && f.chantierId === currentFileId);
+            const html = fs.length === 0 ? '<div style="text-align: center; color: #999;">Aucun fichier</div>' :
+                fs.map(f => {
+                    const s = (f.size / 1024).toFixed(1);
+                    return `<div style="padding: 10px; border-bottom: 1px solid #e0e0e0;"><div style="font-weight: 600; margin-bottom: 4px;">📄 ${f.name}</div><div style="font-size: 11px; color: #666; margin-bottom: 8px;">${s} KB</div><div style="display: flex; gap: 8px;"><a href="${f.data}" download="${f.name}" class="btn" style="width: auto; padding: 4px 12px; font-size: 11px;">⬇️</a><a href="${f.data}" target="_blank" class="btn" style="width: auto; padding: 4px 12px; font-size: 11px; background: #10b981;">👁️</a><button class="btn danger" style="width: auto; padding: 4px 12px; font-size: 11px;" onclick="deleteFile('${f.id}')">🗑️</button></div></div>`;
+                }).join('');
+            document.getElementById('filesContainer').innerHTML = html;
         }
 
-        function deleteFile(fileId) {
-            if (!confirm('Supprimer ce fichier ?')) return;
-            files = files.filter(f => f.id !== fileId);
+        function deleteFile(id) {
+            if (!confirm('Supprimer?')) return;
+            files = files.filter(f => f.id !== id);
             saveData();
             renderFiles();
         }
 
-        // ===== INIT =====
         document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && (e.target.id === 'loginUsername' || e.target.id === 'loginPassword')) {
-                e.preventDefault();
-                login();
-            }
-            if (e.key === 'Enter' && e.target.id === 'messageInput') {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        document.addEventListener('click', (e) => {
-            if (e.target.id === 'assignModal') closeAssignModal();
+            if (e.key === 'Enter' && (e.target.id === 'loginUsername' || e.target.id === 'loginPassword')) { e.preventDefault(); login(); }
+            if (e.key === 'Enter' && e.target.id === 'messageInput') { e.preventDefault(); sendMessage(); }
         });
 
         loadData();
