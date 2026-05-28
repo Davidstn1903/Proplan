@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planning Pro</title>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; }
@@ -16,6 +19,7 @@
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
         .btn-login { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; }
         .error-msg { background: #fee; color: #c33; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; }
+        .success-msg { background: #efe; color: #060; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; }
         .app-container { padding: 20px; min-height: 100vh; }
         .top-bar { background: white; padding: 15px 25px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
         .top-bar h1 { color: #333; font-size: 24px; }
@@ -50,7 +54,7 @@
         td { padding: 12px; border-bottom: 1px solid #e0e0e0; font-size: 13px; }
         .chat-grid { display: grid; grid-template-columns: 250px 1fr; gap: 20px; height: 65vh; }
         .chat-panel { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
-        .channels-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+        .channels-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; padding: 15px; }
         .channel-btn { width: 100%; text-align: left; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
         .channel-btn.active { background: #1d4ed8; }
         .messages-container { flex: 1; overflow-y: auto; padding: 15px; background: #f9f9f9; display: flex; flex-direction: column; }
@@ -61,6 +65,10 @@
         .message.other .message-bubble { background: white; border: 1px solid #ddd; }
         .input-area { display: flex; gap: 10px; padding: 15px; border-top: 1px solid #e0e0e0; }
         .input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .setup-info { background: #efe; border: 2px solid #06b981; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .setup-info h3 { color: #065f46; margin-bottom: 10px; }
+        .setup-info p { color: #047857; font-size: 13px; margin-bottom: 8px; }
+        .setup-info code { background: #d1fae5; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
         @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .cards-list { grid-template-columns: 1fr; } .chat-grid { grid-template-columns: 1fr; height: auto; } }
     </style>
 </head>
@@ -95,6 +103,7 @@
             </div>
 
             <div style="max-width: 1600px; margin: 0 auto;">
+                <div id="setupInfo"></div>
                 <div class="header">
                     <h2 id="pageTitle">Bienvenue</h2>
                     <div class="tabs" id="mainTabs"></div>
@@ -153,7 +162,7 @@
                     </div>
                 </div>
 
-                <!-- TECHNICIENS TAB (CHEF) -->
+                <!-- TECHNICIENS TAB -->
                 <div id="techniciens-tab" class="tab-content">
                     <div class="form-card">
                         <h3>Créer un compte technicien</h3>
@@ -186,7 +195,7 @@
                     </div>
                 </div>
 
-                <!-- CHANTIERS TAB (CHEF) -->
+                <!-- CHANTIERS TAB -->
                 <div id="chantiers-tab" class="tab-content">
                     <div class="form-card">
                         <h3>Créer un chantier</h3>
@@ -228,13 +237,13 @@
                 <!-- MESSAGES TAB -->
                 <div id="messages-tab" class="tab-content">
                     <div class="chat-grid">
-                        <div class="chat-panel" style="padding: 15px;">
-                            <h3 style="margin-bottom: 15px;">Chantiers</h3>
+                        <div class="chat-panel">
+                            <h3 style="padding: 15px; border-bottom: 1px solid #e0e0e0; margin: 0;">Chantiers</h3>
                             <div class="channels-list" id="chatChannels"></div>
                         </div>
                         <div class="chat-panel" style="overflow: hidden;">
                             <div style="padding: 15px; border-bottom: 1px solid #e0e0e0;">
-                                <h3 id="chatTitle">Sélectionnez un chantier</h3>
+                                <h3 id="chatTitle" style="margin: 0;">Sélectionnez un chantier</h3>
                             </div>
                             <div class="messages-container" id="messagesContainer"></div>
                             <div class="input-area" id="chatInputArea" style="display: none;">
@@ -248,13 +257,13 @@
                 <!-- DOSSIERS TAB -->
                 <div id="dossiers-tab" class="tab-content">
                     <div class="chat-grid">
-                        <div class="chat-panel" style="padding: 15px;">
-                            <h3 style="margin-bottom: 15px;">Chantiers</h3>
+                        <div class="chat-panel">
+                            <h3 style="padding: 15px; border-bottom: 1px solid #e0e0e0; margin: 0;">Chantiers</h3>
                             <div class="channels-list" id="filesChannels"></div>
                         </div>
                         <div class="chat-panel" style="overflow: hidden;">
                             <div style="padding: 15px; border-bottom: 1px solid #e0e0e0;">
-                                <h3 id="filesTitle">Sélectionnez un chantier</h3>
+                                <h3 id="filesTitle" style="margin: 0;">Sélectionnez un chantier</h3>
                             </div>
                             <div id="uploadArea" style="display: none; padding: 15px; background: #f0f9ff; border-bottom: 1px solid #dbeafe;">
                                 <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileUpload()">
@@ -301,49 +310,91 @@
     </div>
 
     <script>
+        let db = null;
         let currentUser = null, currentCompanyId = null, currentWeekOffset = 0, currentChatId = null, currentFileId = null;
-        
-        let users = [{ id: 'admin', username: 'David souton', password: 'zC97LR53&*', firstname: 'David', lastname: 'Souton', role: 'admin' }];
-        let companies = [], technicians = [], chantiers = [], assignations = [], messages = [], files = [];
-        
         const colors = ['#ef4444', '#f59e0b', '#10b981', '#8b5cf6', '#06b6d4', '#ec4899', '#6366f1', '#14b8a6', '#f97316', '#6b21a8'];
 
-        function loadData() {
-            const d = localStorage.getItem('ppData');
-            if (d) { const o = JSON.parse(d); users = o.users; companies = o.companies; technicians = o.technicians; chantiers = o.chantiers; assignations = o.assignations; messages = o.messages; files = o.files; }
+        // Configuration Firebase de GTPROPLAN
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgmPSK1FWbgY0Kf6xz0lhYeVQVqUXQkf4",
+            authDomain: "gtproplan.firebaseapp.com",
+            projectId: "gtproplan",
+            storageBucket: "gtproplan.firebasestorage.app",
+            messagingSenderId: "342027552233",
+            appId: "1:342027552233:web:a9b2ed5988af281a9bb778"
+        };
+
+        // Initialiser Firebase
+        function initFirebase() {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                document.getElementById('setupInfo').innerHTML = '';
+                return true;
+            } catch (e) {
+                showSetupMessage();
+                return false;
+            }
         }
 
-        function saveData() {
-            localStorage.setItem('ppData', JSON.stringify({ users, companies, technicians, chantiers, assignations, messages, files }));
+        function showSetupMessage() {
+            document.getElementById('setupInfo').innerHTML = `
+                <div class="setup-info">
+                    <h3>⚙️ Firebase non configuré</h3>
+                    <p>1️⃣ Va sur <a href="https://firebase.google.com" target="_blank" style="color: #047857; text-decoration: underline;">Firebase Console</a></p>
+                    <p>2️⃣ Crée un nouveau projet</p>
+                    <p>3️⃣ Active Firestore Database</p>
+                    <p>4️⃣ Copie tes clés dans le code (voir console)</p>
+                    <p><strong>Clés à remplir dans le code:</strong></p>
+                    <p><code>apiKey</code>, <code>authDomain</code>, <code>projectId</code>, <code>storageBucket</code>, <code>messagingSenderId</code>, <code>appId</code></p>
+                </div>
+            `;
         }
 
-        function login() {
-            loadData();
+        async function login() {
             const u = document.getElementById('loginUsername').value.trim();
             const p = document.getElementById('loginPassword').value;
-            const user = users.find(x => x.username === u && x.password === p);
-            
-            if (!user) {
-                document.getElementById('loginMessage').innerHTML = '<div class="error-msg">Identifiant ou mot de passe incorrect</div>';
-                return;
+
+            if (!db) {
+                alert('Firebase non configuré'); return;
             }
 
-            currentUser = user;
-            if (user.role === 'chef') currentCompanyId = companies.find(c => c.chefId === user.id)?.id;
-            else if (user.role === 'technicien') currentCompanyId = technicians.find(t => t.userId === user.id)?.companyId;
+            try {
+                const querySnapshot = await db.collection('users').where('username', '==', u).where('password', '==', p).limit(1).get();
+                
+                if (querySnapshot.empty) {
+                    document.getElementById('loginMessage').innerHTML = '<div class="error-msg">Identifiant ou mot de passe incorrect</div>';
+                    return;
+                }
 
-            showApp();
+                currentUser = querySnapshot.docs[0].data();
+                currentUser.id = querySnapshot.docs[0].id;
+
+                if (currentUser.role === 'chef') {
+                    const comp = await db.collection('companies').where('chefId', '==', currentUser.id).limit(1).get();
+                    if (!comp.empty) currentCompanyId = comp.docs[0].id;
+                } else if (currentUser.role === 'technicien') {
+                    const tech = await db.collection('technicians').where('userId', '==', currentUser.id).limit(1).get();
+                    if (!tech.empty) currentCompanyId = tech.docs[0].data().companyId;
+                }
+
+                showApp();
+            } catch (e) {
+                console.error(e);
+                alert('Erreur: ' + e.message);
+            }
         }
 
         function logout() {
             currentUser = null;
+            currentCompanyId = null;
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('appPage').style.display = 'none';
             document.getElementById('loginUsername').value = '';
             document.getElementById('loginPassword').value = '';
         }
 
-        function createCompany() {
+        async function createCompany() {
             const name = document.getElementById('companyName').value.trim();
             const fn = document.getElementById('chefFirstname').value.trim();
             const ln = document.getElementById('chefLastname').value.trim();
@@ -351,16 +402,28 @@
             const pw = document.getElementById('chefPassword').value;
 
             if (!name || !fn || !ln || !un || !pw) { alert('Remplissez tous les champs'); return; }
-            if (users.find(u => u.username === un)) { alert('Identifiant déjà utilisé'); return; }
 
-            const id = 'chef_' + Date.now();
-            const cid = 'company_' + Date.now();
-            users.push({ id, username: un, password: pw, firstname: fn, lastname: ln, role: 'chef', companyId: cid });
-            companies.push({ id: cid, name, chefId: id });
-            saveData();
-            clearCompanyForm();
-            renderCompaniesList();
-            alert('✅ Entreprise créée!');
+            try {
+                const exist = await db.collection('users').where('username', '==', un).limit(1).get();
+                if (!exist.empty) { alert('Identifiant déjà utilisé'); return; }
+
+                const chefRef = await db.collection('users').add({
+                    username: un, password: pw, firstname: fn, lastname: ln, role: 'chef', createdAt: new Date()
+                });
+
+                const compRef = await db.collection('companies').add({
+                    name, chefId: chefRef.id, createdAt: new Date()
+                });
+
+                // Mettre à jour l'utilisateur avec companyId
+                await db.collection('users').doc(chefRef.id).update({ companyId: compRef.id });
+
+                clearCompanyForm();
+                renderCompaniesList();
+                alert('✅ Entreprise créée!');
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
         function clearCompanyForm() {
@@ -371,25 +434,35 @@
             document.getElementById('chefPassword').value = '';
         }
 
-        function renderCompaniesList() {
-            loadData();
-            const html = companies.length === 0 ? '<div class="empty-state">Aucune entreprise</div>' : 
-                companies.map(c => {
-                    const chef = users.find(u => u.id === c.chefId);
-                    return `<div class="card"><h4>${c.name}</h4><p>Chef: ${chef?.firstname} ${chef?.lastname}</p><p>Email: ${chef?.username}</p><button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteCompany('${c.id}')">Supprimer</button></div>`;
-                }).join('');
-            document.getElementById('companiesList').innerHTML = html;
+        async function renderCompaniesList() {
+            try {
+                const snapshot = await db.collection('companies').get();
+                let html = snapshot.empty ? '<div class="empty-state">Aucune entreprise</div>' : '';
+                
+                for (const doc of snapshot.docs) {
+                    const c = doc.data();
+                    const chef = await db.collection('users').doc(c.chefId).get();
+                    const chefData = chef.data();
+                    html += `<div class="card"><h4>${c.name}</h4><p>Chef: ${chefData?.firstname} ${chefData?.lastname}</p><p>Email: ${chefData?.username}</p><button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteCompany('${doc.id}', '${c.chefId}')">Supprimer</button></div>`;
+                }
+                document.getElementById('companiesList').innerHTML = html;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        function deleteCompany(cid) {
+        async function deleteCompany(cid, chefId) {
             if (!confirm('Supprimer?')) return;
-            const c = companies.find(x => x.id === cid);
-            users = users.filter(u => u.id !== c.chefId && u.companyId !== cid);
-            companies = companies.filter(x => x.id !== cid);
-            technicians = technicians.filter(t => t.companyId !== cid);
-            chantiers = chantiers.filter(x => x.companyId !== cid);
-            saveData();
-            renderCompaniesList();
+            try {
+                await db.collection('companies').doc(cid).delete();
+                await db.collection('users').doc(chefId).delete();
+                await db.collection('technicians').where('companyId', '==', cid).get().then(snap => {
+                    snap.docs.forEach(doc => db.collection('technicians').doc(doc.id).delete());
+                });
+                renderCompaniesList();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
         function showApp() {
@@ -398,13 +471,22 @@
             document.getElementById('currentUser').textContent = currentUser.firstname + ' ' + currentUser.lastname;
             document.getElementById('roleDisplay').textContent = currentUser.role === 'admin' ? 'Admin' : currentUser.role === 'chef' ? 'Chef' : 'Technicien';
             setupTabs();
+            
             if (currentUser.role === 'admin') {
                 document.getElementById('pageTitle').textContent = 'Admin - Entreprises';
                 renderCompaniesList();
             } else {
-                const c = companies.find(x => x.id === currentCompanyId);
-                document.getElementById('pageTitle').textContent = c?.name;
+                loadCompanyData();
+            }
+        }
+
+        async function loadCompanyData() {
+            try {
+                const comp = await db.collection('companies').doc(currentCompanyId).get();
+                document.getElementById('pageTitle').textContent = comp.data()?.name;
                 renderPlanning();
+            } catch (e) {
+                console.error(e);
             }
         }
 
@@ -456,45 +538,50 @@
 
         function formatDate(d) { return d.toISOString().split('T')[0]; }
 
-        function getTechColor(id) {
-            const idx = technicians.filter(t => t.companyId === currentCompanyId).findIndex(t => t.id === id);
-            return colors[idx % colors.length];
-        }
-
-        function renderPlanning() {
-            loadData();
-            const week = getWeekDates();
-            const today = formatDate(new Date());
-            const techs = technicians.filter(t => t.companyId === currentCompanyId);
-            const assigns = assignations.filter(a => a.companyId === currentCompanyId);
-
-            document.getElementById('weekDisplay').textContent = week[0].toLocaleDateString('fr-FR') + ' au ' + week[4].toLocaleDateString('fr-FR');
-
-            let html = '<tr><th style="width: 150px;">Technicien</th>';
-            week.forEach(d => {
-                const day = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'][d.getDay()];
-                html += `<th style="background: ${formatDate(d) === today ? '#fef3c7' : '#f0f4f8'};"><strong>${day}</strong><br>${d.getDate()}/${d.getMonth() + 1}</th>`;
-            });
-            html += '</tr>';
-
-            techs.forEach(t => {
-                const color = getTechColor(t.id);
-                html += `<tr><td style="background: #f9f9f9; font-weight: 600;"><span style="display: inline-block; width: 8px; height: 8px; background: ${color}; border-radius: 50%; margin-right: 8px;"></span>${t.prenom} ${t.nom}</td>`;
+        async function renderPlanning() {
+            try {
+                const week = getWeekDates();
+                const today = formatDate(new Date());
                 
+                const techSnap = await db.collection('technicians').where('companyId', '==', currentCompanyId).get();
+                const techs = techSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+                
+                const assignSnap = await db.collection('assignations').where('companyId', '==', currentCompanyId).get();
+                const assigns = assignSnap.docs.map(d => d.data());
+                
+                const chantSnap = await db.collection('chantiers').where('companyId', '==', currentCompanyId).get();
+                const chants = chantSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                document.getElementById('weekDisplay').textContent = week[0].toLocaleDateString('fr-FR') + ' au ' + week[4].toLocaleDateString('fr-FR');
+
+                let html = '<tr><th style="width: 150px;">Technicien</th>';
                 week.forEach(d => {
-                    const ds = formatDate(d);
-                    const as = assigns.filter(a => a.tech === t.id && a.date === ds);
-                    html += `<td style="background: ${ds === today ? '#fffbf0' : 'white'}; text-align: center;">`;
-                    as.forEach(a => {
-                        const ch = chantiers.find(c => c.id === a.chantierId);
-                        if (ch) html += `<div style="background: ${color}; color: white; padding: 4px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-bottom: 2px;">${ch.nom}</div>`;
-                    });
-                    html += '</td>';
+                    const day = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'][d.getDay()];
+                    html += `<th style="background: ${formatDate(d) === today ? '#fef3c7' : '#f0f4f8'};"><strong>${day}</strong><br>${d.getDate()}/${d.getMonth() + 1}</th>`;
                 });
                 html += '</tr>';
-            });
 
-            document.getElementById('planningTable').innerHTML = html;
+                techs.forEach((t, idx) => {
+                    const color = colors[idx % colors.length];
+                    html += `<tr><td style="background: #f9f9f9; font-weight: 600;"><span style="display: inline-block; width: 8px; height: 8px; background: ${color}; border-radius: 50%; margin-right: 8px;"></span>${t.prenom} ${t.nom}</td>`;
+                    
+                    week.forEach(d => {
+                        const ds = formatDate(d);
+                        const as = assigns.filter(a => a.tech === t.id && a.date === ds);
+                        html += `<td style="background: ${ds === today ? '#fffbf0' : 'white'}; text-align: center;">`;
+                        as.forEach(a => {
+                            const ch = chants.find(c => c.id === a.chantierId);
+                            if (ch) html += `<div style="background: ${color}; color: white; padding: 4px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-bottom: 2px;">${ch.nom}</div>`;
+                        });
+                        html += '</td>';
+                    });
+                    html += '</tr>';
+                });
+
+                document.getElementById('planningTable').innerHTML = html;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         function previousWeek() { currentWeekOffset--; renderPlanning(); }
@@ -510,23 +597,32 @@
             w.print();
         }
 
-        function addTechnicien() {
+        async function addTechnicien() {
             const p = document.getElementById('techPrenom').value.trim();
             const n = document.getElementById('techNom').value.trim();
             const u = document.getElementById('techUsername').value.trim();
             const pw = document.getElementById('techPassword').value;
 
             if (!p || !n || !u || !pw) { alert('Remplissez tous les champs'); return; }
-            if (users.find(x => x.username === u)) { alert('Identifiant déjà utilisé'); return; }
 
-            const uid = 'tech_' + Date.now();
-            const tid = 'technicien_' + Date.now();
-            users.push({ id: uid, username: u, password: pw, firstname: p, lastname: n, role: 'technicien' });
-            technicians.push({ id: tid, userId: uid, companyId: currentCompanyId, prenom: p, nom: n });
-            saveData();
-            clearTechForm();
-            renderTechList();
-            alert('✅ Technicien créé!');
+            try {
+                const exist = await db.collection('users').where('username', '==', u).limit(1).get();
+                if (!exist.empty) { alert('Identifiant déjà utilisé'); return; }
+
+                const uid = await db.collection('users').add({
+                    username: u, password: pw, firstname: p, lastname: n, role: 'technicien'
+                });
+
+                await db.collection('technicians').add({
+                    userId: uid.id, companyId: currentCompanyId, prenom: p, nom: n, createdAt: new Date()
+                });
+
+                clearTechForm();
+                renderTechList();
+                alert('✅ Technicien créé!');
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
         function clearTechForm() {
@@ -536,27 +632,34 @@
             document.getElementById('techPassword').value = '';
         }
 
-        function renderTechList() {
-            loadData();
-            const ts = technicians.filter(t => t.companyId === currentCompanyId);
-            const html = ts.length === 0 ? '<div class="empty-state">Aucun technicien</div>' :
-                ts.map(t => {
-                    const u = users.find(x => x.id === t.userId);
-                    return `<div class="card"><h4>${t.prenom} ${t.nom}</h4><p>Identifiant: ${u?.username}</p><button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteTech('${t.id}')">Supprimer</button></div>`;
-                }).join('');
-            document.getElementById('techList').innerHTML = html;
+        async function renderTechList() {
+            try {
+                const snap = await db.collection('technicians').where('companyId', '==', currentCompanyId).get();
+                let html = snap.empty ? '<div class="empty-state">Aucun technicien</div>' : '';
+                
+                for (const doc of snap.docs) {
+                    const t = doc.data();
+                    const u = await db.collection('users').doc(t.userId).get();
+                    html += `<div class="card"><h4>${t.prenom} ${t.nom}</h4><p>Identifiant: ${u.data()?.username}</p><button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteTech('${doc.id}', '${t.userId}')">Supprimer</button></div>`;
+                }
+                document.getElementById('techList').innerHTML = html;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        function deleteTech(id) {
+        async function deleteTech(id, uid) {
             if (!confirm('Supprimer?')) return;
-            const t = technicians.find(x => x.id === id);
-            users = users.filter(u => u.id !== t.userId);
-            technicians = technicians.filter(x => x.id !== id);
-            saveData();
-            renderTechList();
+            try {
+                await db.collection('technicians').doc(id).delete();
+                await db.collection('users').doc(uid).delete();
+                renderTechList();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
-        function addChantier() {
+        async function addChantier() {
             const n = document.getElementById('chantierName').value.trim();
             const a = document.getElementById('chantierAddress').value.trim();
             const d = document.getElementById('chantierDuration').value;
@@ -564,10 +667,15 @@
 
             if (!n || !a || !d || !t) { alert('Remplissez tous les champs'); return; }
 
-            chantiers.push({ id: Date.now().toString(), companyId: currentCompanyId, nom: n, address: a, duration: d, type: t });
-            saveData();
-            clearChantierForm();
-            renderChantiersList();
+            try {
+                await db.collection('chantiers').add({
+                    companyId: currentCompanyId, nom: n, address: a, duration: d, type: t, createdAt: new Date()
+                });
+                clearChantierForm();
+                renderChantiersList();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
         function clearChantierForm() {
@@ -577,142 +685,217 @@
             document.getElementById('chantierType').value = '';
         }
 
-        function renderChantiersList() {
-            loadData();
-            const cs = chantiers.filter(c => c.companyId === currentCompanyId);
-            const html = cs.length === 0 ? '<div class="empty-state">Aucun chantier</div>' :
-                cs.map(c => `<div class="card"><h4>${c.nom}</h4><p>Adresse: ${c.address}</p><p>Durée: ${c.duration} jour(s)</p><p><span class="badge">${c.type}</span></p>${currentUser.role === 'chef' ? `<button class="btn" style="width: 100%; margin-bottom: 6px;" onclick="openAssignModal('${c.id}')">Assigner</button><button class="btn danger" style="width: 100%;" onclick="deleteChantier('${c.id}')">Supprimer</button>` : ''}</div>`).join('');
-            document.getElementById('chantiersList').innerHTML = html;
+        async function renderChantiersList() {
+            try {
+                const snap = await db.collection('chantiers').where('companyId', '==', currentCompanyId).get();
+                let html = snap.empty ? '<div class="empty-state">Aucun chantier</div>' : '';
+                
+                snap.docs.forEach(doc => {
+                    const c = doc.data();
+                    html += `<div class="card"><h4>${c.nom}</h4><p>Adresse: ${c.address}</p><p>Durée: ${c.duration} jour(s)</p><p><span class="badge">${c.type}</span></p>${currentUser.role === 'chef' ? `<button class="btn" style="width: 100%; margin-bottom: 6px;" onclick="openAssignModal('${doc.id}')">Assigner</button><button class="btn danger" style="width: 100%;" onclick="deleteChantier('${doc.id}')">Supprimer</button>` : ''}</div>`;
+                });
+                document.getElementById('chantiersList').innerHTML = html;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        function openAssignModal(cid) {
-            const ts = technicians.filter(t => t.companyId === currentCompanyId);
-            if (ts.length === 0) { alert('Ajoutez des techniciens'); return; }
-            document.getElementById('modalTech').innerHTML = '<option value="">-- Sélectionner --</option>' + ts.map(t => `<option value="${t.id}">${t.prenom} ${t.nom}</option>`).join('');
-            document.getElementById('modalDate').valueAsDate = new Date();
-            document.querySelectorAll('[data-day]').forEach(cb => cb.checked = false);
-            document.getElementById('assignModal').classList.add('show');
-            currentChantierID = cid;
+        async function openAssignModal(cid) {
+            try {
+                const snap = await db.collection('technicians').where('companyId', '==', currentCompanyId).get();
+                if (snap.empty) { alert('Ajoutez des techniciens'); return; }
+                
+                let opt = '<option value="">-- Sélectionner --</option>';
+                snap.docs.forEach(doc => {
+                    const t = doc.data();
+                    opt += `<option value="${doc.id}">${t.prenom} ${t.nom}</option>`;
+                });
+                
+                document.getElementById('modalTech').innerHTML = opt;
+                document.getElementById('modalDate').valueAsDate = new Date();
+                document.querySelectorAll('[data-day]').forEach(cb => cb.checked = false);
+                document.getElementById('assignModal').classList.add('show');
+                window.currentChantierID = cid;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         function closeAssignModal() { document.getElementById('assignModal').classList.remove('show'); }
 
-        function confirmAssign() {
+        async function confirmAssign() {
             const t = document.getElementById('modalTech').value;
             const d = document.getElementById('modalDate').value;
             const days = Array.from(document.querySelectorAll('[data-day]:checked')).map(cb => parseInt(cb.getAttribute('data-day')));
 
             if (!t || !d || days.length === 0) { alert('Remplissez tous les champs'); return; }
 
-            const ws = getMonday(new Date(d));
-            for (let i = 0; i < 5; i++) {
-                const dt = new Date(ws);
-                dt.setDate(dt.getDate() + i);
-                if (days.includes(dt.getDay())) {
-                    assignations.push({ id: Date.now().toString(), companyId: currentCompanyId, chantierId: currentChantierID, tech: t, date: formatDate(dt) });
+            try {
+                const ws = getMonday(new Date(d));
+                for (let i = 0; i < 5; i++) {
+                    const dt = new Date(ws);
+                    dt.setDate(dt.getDate() + i);
+                    if (days.includes(dt.getDay())) {
+                        await db.collection('assignations').add({
+                            companyId: currentCompanyId,
+                            chantierId: window.currentChantierID,
+                            tech: t,
+                            date: formatDate(dt),
+                            createdAt: new Date()
+                        });
+                    }
                 }
+                closeAssignModal();
+                renderPlanning();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
             }
-            saveData();
-            closeAssignModal();
-            renderPlanning();
         }
 
-        function deleteChantier(id) {
+        async function deleteChantier(id) {
             if (!confirm('Supprimer?')) return;
-            chantiers = chantiers.filter(c => c.id !== id);
-            saveData();
-            renderChantiersList();
+            try {
+                await db.collection('chantiers').doc(id).delete();
+                renderChantiersList();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
-        function renderMessagesTab() {
-            loadData();
-            const cs = chantiers.filter(c => c.companyId === currentCompanyId);
-            const html = cs.length === 0 ? '<div class="empty-state">Aucun chantier</div>' :
-                cs.map(c => `<button class="channel-btn ${currentChatId === c.id ? 'active' : ''}" onclick="openChat('${c.id}')" style="background: ${currentChatId === c.id ? '#1d4ed8' : '#6b7280'};">📍 ${c.nom}</button>`).join('');
-            document.getElementById('chatChannels').innerHTML = html;
+        async function renderMessagesTab() {
+            try {
+                const snap = await db.collection('chantiers').where('companyId', '==', currentCompanyId).get();
+                let html = snap.empty ? '<div class="empty-state">Aucun chantier</div>' : '';
+                snap.docs.forEach(doc => {
+                    const c = doc.data();
+                    html += `<button class="channel-btn ${currentChatId === doc.id ? 'active' : ''}" onclick="openChat('${doc.id}')" style="background: ${currentChatId === doc.id ? '#1d4ed8' : '#6b7280'};">📍 ${c.nom}</button>`;
+                });
+                document.getElementById('chatChannels').innerHTML = html;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        function openChat(cid) {
-            loadData();
+        async function openChat(cid) {
             currentChatId = cid;
-            const c = chantiers.find(x => x.id === cid);
-            document.getElementById('chatTitle').textContent = '💬 ' + c.nom;
+            const c = await db.collection('chantiers').doc(cid).get();
+            document.getElementById('chatTitle').textContent = '💬 ' + c.data()?.nom;
             document.getElementById('chatInputArea').style.display = 'flex';
             renderMessages();
             renderMessagesTab();
         }
 
-        function renderMessages() {
-            loadData();
-            const ms = messages.filter(m => m.companyId === currentCompanyId && m.chantierId === currentChatId);
-            const html = ms.length === 0 ? '<div style="text-align: center; color: #999;">Aucun message</div>' :
-                ms.map(m => {
-                    const s = users.find(u => u.id === m.userId);
+        async function renderMessages() {
+            try {
+                const snap = await db.collection('messages').where('companyId', '==', currentCompanyId).where('chantierId', '==', currentChatId).orderBy('timestamp', 'asc').get();
+                let html = snap.empty ? '<div style="text-align: center; color: #999;">Aucun message</div>' : '';
+                
+                for (const doc of snap.docs) {
+                    const m = doc.data();
+                    const s = await db.collection('users').doc(m.userId).get();
                     const is = m.userId === currentUser.id;
-                    return `<div class="message ${is ? 'own' : 'other'}"><div class="message-bubble"><div style="font-size: 11px; font-weight: 600; margin-bottom: 4px;">${s?.firstname} ${s?.lastname}</div>${m.text}</div></div>`;
-                }).join('');
-            const c = document.getElementById('messagesContainer');
-            c.innerHTML = html;
-            c.scrollTop = c.scrollHeight;
+                    html += `<div class="message ${is ? 'own' : 'other'}"><div class="message-bubble"><div style="font-size: 11px; font-weight: 600; margin-bottom: 4px;">${s.data()?.firstname} ${s.data()?.lastname}</div>${m.text}</div></div>`;
+                }
+                
+                const c = document.getElementById('messagesContainer');
+                c.innerHTML = html;
+                c.scrollTop = c.scrollHeight;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        function sendMessage() {
+        async function sendMessage() {
             if (!currentChatId) return;
             const t = document.getElementById('messageInput').value.trim();
             if (!t) return;
-            messages.push({ id: Date.now().toString(), companyId: currentCompanyId, chantierId: currentChatId, userId: currentUser.id, text: t });
-            saveData();
-            document.getElementById('messageInput').value = '';
-            renderMessages();
+            
+            try {
+                await db.collection('messages').add({
+                    companyId: currentCompanyId,
+                    chantierId: currentChatId,
+                    userId: currentUser.id,
+                    text: t,
+                    timestamp: new Date()
+                });
+                document.getElementById('messageInput').value = '';
+                renderMessages();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
-        function renderDossiersTab() {
-            loadData();
-            const cs = chantiers.filter(c => c.companyId === currentCompanyId);
-            const html = cs.length === 0 ? '<div class="empty-state">Aucun chantier</div>' :
-                cs.map(c => `<button class="channel-btn ${currentFileId === c.id ? 'active' : ''}" onclick="openFiles('${c.id}')" style="background: ${currentFileId === c.id ? '#1d4ed8' : '#6b7280'};">📁 ${c.nom}</button>`).join('');
-            document.getElementById('filesChannels').innerHTML = html;
+        async function renderDossiersTab() {
+            try {
+                const snap = await db.collection('chantiers').where('companyId', '==', currentCompanyId).get();
+                let html = snap.empty ? '<div class="empty-state">Aucun chantier</div>' : '';
+                snap.docs.forEach(doc => {
+                    const c = doc.data();
+                    html += `<button class="channel-btn ${currentFileId === doc.id ? 'active' : ''}" onclick="openFiles('${doc.id}')" style="background: ${currentFileId === doc.id ? '#1d4ed8' : '#6b7280'};">📁 ${c.nom}</button>`;
+                });
+                document.getElementById('filesChannels').innerHTML = html;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        function openFiles(cid) {
-            loadData();
+        async function openFiles(cid) {
             currentFileId = cid;
-            const c = chantiers.find(x => x.id === cid);
-            document.getElementById('filesTitle').textContent = '📁 ' + c.nom;
+            const c = await db.collection('chantiers').doc(cid).get();
+            document.getElementById('filesTitle').textContent = '📁 ' + c.data()?.nom;
             document.getElementById('uploadArea').style.display = 'block';
             renderFiles();
             renderDossiersTab();
         }
 
-        function handleFileUpload() {
+        async function handleFileUpload() {
             const f = document.getElementById('fileInput').files;
             for (let file of f) {
                 const r = new FileReader();
-                r.onload = (e) => {
-                    files.push({ id: Date.now().toString(), companyId: currentCompanyId, chantierId: currentFileId, name: file.name, size: file.size, data: e.target.result });
-                    saveData();
-                    renderFiles();
+                r.onload = async (e) => {
+                    try {
+                        await db.collection('files').add({
+                            companyId: currentCompanyId,
+                            chantierId: currentFileId,
+                            name: file.name,
+                            size: file.size,
+                            data: e.target.result,
+                            uploadedAt: new Date(),
+                            uploadedBy: currentUser.firstname + ' ' + currentUser.lastname
+                        });
+                        renderFiles();
+                    } catch (err) {
+                        alert('Erreur: ' + err.message);
+                    }
                 };
                 r.readAsDataURL(file);
             }
         }
 
-        function renderFiles() {
-            loadData();
-            const fs = files.filter(f => f.companyId === currentCompanyId && f.chantierId === currentFileId);
-            const html = fs.length === 0 ? '<div style="text-align: center; color: #999;">Aucun fichier</div>' :
-                fs.map(f => {
+        async function renderFiles() {
+            try {
+                const snap = await db.collection('files').where('companyId', '==', currentCompanyId).where('chantierId', '==', currentFileId).get();
+                let html = snap.empty ? '<div style="text-align: center; color: #999;">Aucun fichier</div>' : '';
+                
+                snap.docs.forEach(doc => {
+                    const f = doc.data();
                     const s = (f.size / 1024).toFixed(1);
-                    return `<div style="padding: 10px; border-bottom: 1px solid #e0e0e0;"><div style="font-weight: 600; margin-bottom: 4px;">📄 ${f.name}</div><div style="font-size: 11px; color: #666; margin-bottom: 8px;">${s} KB</div><div style="display: flex; gap: 8px;"><a href="${f.data}" download="${f.name}" class="btn" style="width: auto; padding: 4px 12px; font-size: 11px;">⬇️</a><a href="${f.data}" target="_blank" class="btn" style="width: auto; padding: 4px 12px; font-size: 11px; background: #10b981;">👁️</a><button class="btn danger" style="width: auto; padding: 4px 12px; font-size: 11px;" onclick="deleteFile('${f.id}')">🗑️</button></div></div>`;
-                }).join('');
-            document.getElementById('filesContainer').innerHTML = html;
+                    html += `<div style="padding: 10px; border-bottom: 1px solid #e0e0e0;"><div style="font-weight: 600; margin-bottom: 4px;">📄 ${f.name}</div><div style="font-size: 11px; color: #666; margin-bottom: 8px;">${s} KB</div><div style="display: flex; gap: 8px;"><a href="${f.data}" download="${f.name}" class="btn" style="width: auto; padding: 4px 12px; font-size: 11px;">⬇️</a><a href="${f.data}" target="_blank" class="btn" style="width: auto; padding: 4px 12px; font-size: 11px; background: #10b981;">👁️</a><button class="btn danger" style="width: auto; padding: 4px 12px; font-size: 11px;" onclick="deleteFile('${doc.id}')">🗑️</button></div></div>`;
+                });
+                document.getElementById('filesContainer').innerHTML = html;
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        function deleteFile(id) {
+        async function deleteFile(id) {
             if (!confirm('Supprimer?')) return;
-            files = files.filter(f => f.id !== id);
-            saveData();
-            renderFiles();
+            try {
+                await db.collection('files').doc(id).delete();
+                renderFiles();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
         }
 
         document.addEventListener('keypress', (e) => {
@@ -720,7 +903,10 @@
             if (e.key === 'Enter' && e.target.id === 'messageInput') { e.preventDefault(); sendMessage(); }
         });
 
-        loadData();
+        // Initialiser Firebase au démarrage
+        window.addEventListener('load', () => {
+            initFirebase();
+        });
     </script>
 </body>
 </html>
