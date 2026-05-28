@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#667eea">
-    <title>Planning Chantiers Pro</title>
+    <title>Planning Pro - Multi-Entreprise</title>
     <style>
         * {
             margin: 0;
@@ -86,24 +86,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-signup {
-            width: 100%;
-            padding: 12px;
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
-        }
-
-        .btn-signup:hover {
-            background: #f5f5f5;
-        }
-
         .error-msg {
             background: #fee;
             color: #c33;
@@ -174,22 +156,6 @@
             background: #dc2626;
         }
 
-        .btn-create-account {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn-create-account:hover {
-            background: #1d4ed8;
-        }
-
         .container {
             max-width: 1600px;
             margin: 0 auto;
@@ -207,11 +173,6 @@
             color: #333;
             font-size: 22px;
             margin-bottom: 5px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 14px;
         }
 
         .tabs {
@@ -237,11 +198,6 @@
         .tab-btn.active {
             color: #2563eb;
             border-bottom-color: #2563eb;
-        }
-
-        .tab-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .tab-content {
@@ -307,15 +263,6 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            padding-right: 30px;
-        }
-
         .btn {
             padding: 10px 20px;
             background: #2563eb;
@@ -333,14 +280,6 @@
             background: #1d4ed8;
         }
 
-        .btn.secondary {
-            background: #6b7280;
-        }
-
-        .btn.secondary:hover {
-            background: #4b5563;
-        }
-
         .btn.danger {
             background: #ef4444;
         }
@@ -349,13 +288,13 @@
             background: #dc2626;
         }
 
-        .users-list {
+        .cards-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 15px;
         }
 
-        .user-card {
+        .card {
             background: white;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
@@ -363,120 +302,30 @@
             transition: all 0.2s;
         }
 
-        .user-card:hover {
+        .card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
 
-        .user-card h4 {
+        .card h4 {
             color: #333;
             margin-bottom: 8px;
         }
 
-        .user-card p {
+        .card p {
             font-size: 13px;
             color: #666;
             margin-bottom: 10px;
         }
 
-        .role-badge {
+        .badge {
             display: inline-block;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .role-admin {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .role-chef {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .role-technicien {
             background: #dbeafe;
             color: #1e40af;
-        }
-
-        .planning-container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            overflow-x: auto;
-        }
-
-        .planning-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .planning-table thead {
-            background: #f0f4f8;
-        }
-
-        .planning-table th {
-            padding: 12px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            border: 1px solid #e0e0e0;
-        }
-
-        .planning-table th.tech-col {
-            text-align: left;
-            background: #f9f9f9;
-            width: 150px;
-            position: sticky;
-            left: 0;
-            z-index: 11;
-        }
-
-        .planning-table td {
-            padding: 10px;
-            border: 1px solid #e0e0e0;
-            height: 100px;
-            vertical-align: top;
-        }
-
-        .planning-table td.tech-col {
-            background: #f9f9f9;
-            font-weight: 600;
-            color: #333;
-            width: 150px;
-            position: sticky;
-            left: 0;
-            z-index: 10;
-        }
-
-        .chantier-item {
-            background: white;
-            border: 2px solid;
-            border-radius: 5px;
-            padding: 6px;
-            margin-bottom: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-
-        .chantier-item-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 2px;
-            word-break: break-word;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
         }
 
         .modal {
@@ -530,415 +379,26 @@
             margin-top: 20px;
         }
 
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .controls button {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .controls button:hover {
-            background: #1d4ed8;
-        }
-
-        .week-label {
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-            background: #e0e7ff;
-            padding: 8px 16px;
-            border-radius: 6px;
-        }
-
-        .days-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .day-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .day-checkbox input {
-            cursor: pointer;
-            width: 18px;
-            height: 18px;
-            accent-color: #2563eb;
-        }
-
-        .day-checkbox label {
-            cursor: pointer;
-            margin: 0;
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
         }
 
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            .users-list {
+            .cards-list {
                 grid-template-columns: 1fr;
             }
             .top-bar {
                 flex-direction: column;
                 gap: 15px;
             }
-            
-            /* Messages & Dossiers sur mobile */
-            #messages-tab > div,
-            #dossiers-tab > div {
-                grid-template-columns: 1fr !important;
-                gap: 0 !important;
-                height: auto !important;
-                min-height: auto !important;
-            }
-            
-            #chatChannels,
-            #filesChannels {
-                display: grid !important;
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
-                gap: 8px !important;
-                margin-bottom: 15px !important;
-            }
-            
-            .form-card {
-                margin-bottom: 15px !important;
-                padding: 15px !important;
-            }
-            
-            .form-card h3 {
-                font-size: 14px;
-                margin-bottom: 12px;
-            }
-            
-            #messagesContainer,
-            #filesContainer {
-                max-height: 400px !important;
-                padding: 10px !important;
-            }
-            
-            #chatInputArea {
-                flex-direction: column !important;
-                gap: 8px !important;
-            }
-            
-            #messageInput,
-            #fileInput {
-                width: 100% !important;
-            }
-            
-            .planning-table {
-                font-size: 12px;
-            }
-            
-            .planning-table th,
-            .planning-table td {
-                padding: 8px !important;
-                font-size: 11px !important;
-            }
-            
-            .planning-table td {
-                height: 80px !important;
-            }
-            
-            .top-bar h1 {
-                font-size: 18px;
-            }
-            
-            .user-info {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-            
-            .user-badge {
-                font-size: 10px;
-                padding: 4px 8px;
-            }
-            
-            .btn {
-                padding: 8px 12px;
-                font-size: 13px;
-            }
-            
-            .controls {
-                gap: 8px;
-            }
-            
-            .controls button {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-            
-            .week-label {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-            
-            .tabs {
-                gap: 5px;
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-            
-            .tab-btn {
-                padding: 10px 12px;
-                font-size: 12px;
-                white-space: nowrap;
-            }
-            
-            .header {
-                padding: 15px;
-                margin-bottom: 15px;
-            }
-            
-            .header h2 {
-                font-size: 18px;
-                margin-bottom: 3px;
-            }
-            
-            .header p {
-                font-size: 12px;
-            }
-            
             .login-box {
                 padding: 25px;
                 max-width: 90%;
-            }
-            
-            .login-box h1 {
-                font-size: 22px;
-                margin-bottom: 20px;
-            }
-            
-            .form-group input {
-                padding: 10px 12px;
-                font-size: 16px;
-            }
-            
-            .btn-login,
-            .btn-signup {
-                padding: 10px;
-                font-size: 14px;
-            }
-            
-            .modal-content {
-                max-width: 95%;
-                padding: 20px;
-            }
-            
-            .modal-content h3 {
-                font-size: 16px;
-            }
-            
-            .days-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            
-            .day-checkbox input {
-                width: 16px;
-                height: 16px;
-            }
-            
-            .day-checkbox label {
-                font-size: 13px;
-            }
-            
-            /* Fichiers sur mobile */
-            #uploadArea {
-                padding: 12px !important;
-                margin-bottom: 12px !important;
-            }
-            
-            #uploadArea button {
-                padding: 10px !important;
-                font-size: 13px !important;
-            }
-            
-            #filesContainer > div {
-                flex-direction: column !important;
-            }
-            
-            #filesContainer > div > div:last-child {
-                width: 100%;
-                display: flex;
-                gap: 6px;
-                flex-wrap: wrap;
-            }
-            
-            #filesContainer > div > div:last-child a,
-            #filesContainer > div > div:last-child button {
-                flex: 1;
-                min-width: 70px;
-                padding: 8px 6px !important;
-                font-size: 11px !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .app-container {
-                padding: 10px;
-            }
-            
-            .top-bar {
-                padding: 12px;
-                margin-bottom: 12px;
-            }
-            
-            .container {
-                max-width: 100%;
-            }
-            
-            .form-card {
-                padding: 12px !important;
-                margin-bottom: 12px !important;
-            }
-            
-            .header {
-                padding: 12px;
-                margin-bottom: 12px;
-            }
-            
-            .login-box {
-                padding: 20px;
-                max-width: 95%;
-                border-radius: 8px;
-            }
-            
-            .login-box h1 {
-                font-size: 20px;
-                margin-bottom: 15px;
-            }
-            
-            .form-group {
-                margin-bottom: 15px;
-            }
-            
-            .form-group label {
-                font-size: 12px;
-                margin-bottom: 5px;
-            }
-            
-            .form-group input {
-                padding: 10px;
-                font-size: 16px;
-                border-radius: 4px;
-            }
-            
-            .btn {
-                padding: 10px;
-                font-size: 13px;
-                border-radius: 4px;
-            }
-            
-            .btn-login {
-                padding: 12px;
-                font-size: 15px;
-            }
-            
-            .btn-signup {
-                padding: 12px;
-                font-size: 15px;
-                margin-top: 8px;
-            }
-            
-            .planning-table {
-                font-size: 10px;
-            }
-            
-            .planning-table th,
-            .planning-table td {
-                padding: 6px !important;
-                font-size: 10px !important;
-            }
-            
-            .planning-table td {
-                height: 70px !important;
-            }
-            
-            .chantier-item {
-                padding: 4px;
-                font-size: 10px;
-                margin-bottom: 2px;
-            }
-            
-            .chantier-item-name {
-                font-size: 9px;
-            }
-            
-            #chatChannels,
-            #filesChannels {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
-            
-            #messagesContainer,
-            #filesContainer {
-                max-height: 350px !important;
-                padding: 8px !important;
-                font-size: 13px;
-            }
-            
-            .user-card {
-                padding: 12px;
-            }
-            
-            .user-card h4 {
-                font-size: 14px;
-                margin-bottom: 6px;
-            }
-            
-            .user-card p {
-                font-size: 12px;
-                margin-bottom: 8px;
-            }
-            
-            .role-badge {
-                padding: 3px 8px;
-                font-size: 10px;
-            }
-            
-            .modal-content {
-                max-width: 100%;
-                padding: 15px;
-                margin: 10px;
-            }
-            
-            .modal-content h3 {
-                font-size: 15px;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .modal-actions button {
-                width: 100%;
-                padding: 10px;
-            }
-            
-            .days-grid {
-                grid-template-columns: 1fr;
-                gap: 8px;
             }
         }
     </style>
@@ -961,52 +421,6 @@
             </div>
 
             <button class="btn-login" onclick="login()">Connexion</button>
-            <button class="btn-signup" onclick="showCreateAccountModal()">+ Créer un compte</button>
-        </div>
-    </div>
-
-    <!-- SIGNUP MODAL -->
-    <div class="modal" id="signupModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeSignupModal()">×</button>
-            <h3>Créer un nouveau compte</h3>
-            
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Utilisateur (identifiant) *</label>
-                    <input type="text" id="signupUsername" placeholder="Choisir un identifiant">
-                </div>
-
-                <div class="form-group">
-                    <label>Mot de passe *</label>
-                    <input type="password" id="signupPassword" placeholder="Mot de passe sécurisé">
-                </div>
-
-                <div class="form-group">
-                    <label>Prénom</label>
-                    <input type="text" id="signupFirstname" placeholder="Prénom">
-                </div>
-
-                <div class="form-group">
-                    <label>Nom</label>
-                    <input type="text" id="signupLastname" placeholder="Nom">
-                </div>
-
-                <div class="form-group">
-                    <label>Rôle *</label>
-                    <select id="signupRole">
-                        <option value="">-- Sélectionner --</option>
-                        <option value="technicien">Technicien</option>
-                        <option value="chef">Chef de projet</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn secondary" onclick="closeSignupModal()">Annuler</button>
-                <button class="btn" onclick="createAccount()">Créer</button>
-            </div>
         </div>
     </div>
 
@@ -1016,7 +430,6 @@
             <div class="top-bar">
                 <h1>📅 Planning Pro</h1>
                 <div style="display: flex; gap: 15px; align-items: center;">
-                    <button class="btn-create-account" id="createAccountBtn" onclick="showCreateAccountModal()" style="display: none;">+ Créer un compte</button>
                     <div class="user-info">
                         <span id="currentUser"></span>
                         <span class="user-badge" id="roleDisplay"></span>
@@ -1027,73 +440,66 @@
 
             <div class="container">
                 <div class="header">
-                    <h2>Bienvenue dans Planning Pro</h2>
-                    <p>Gérez vos chantiers et vos équipes efficacement</p>
-                    
+                    <h2 id="pageTitle">Bienvenue</h2>
+                    <p id="pageSubtitle"></p>
                     <div class="tabs" id="mainTabs"></div>
                 </div>
 
-                <!-- PLANNING TAB -->
-                <div id="planning-tab" class="tab-content active">
+                <!-- ADMIN PANEL -->
+                <div id="admin-tab" class="tab-content">
                     <div class="form-card">
-                        <div class="controls">
-                            <button onclick="previousWeek()">← Semaine précédente</button>
-                            <span class="week-label" id="weekDisplay">Semaine en cours</span>
-                            <button onclick="nextWeek()">Semaine suivante →</button>
-                            <button class="btn" onclick="printPlanning()" style="background: #10b981;">🖨️ Imprimer</button>
+                        <h3>Créer une nouvelle entreprise</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nom de l'entreprise</label>
+                                <input type="text" id="companyName" placeholder="Ex: BTP Solutions">
+                            </div>
+                            <div class="form-group">
+                                <label>Chef d'entreprise</label>
+                                <input type="text" id="chefFirstname" placeholder="Prénom">
+                            </div>
+                            <div class="form-group">
+                                <label>Nom du chef</label>
+                                <input type="text" id="chefLastname" placeholder="Nom">
+                            </div>
+                            <div class="form-group">
+                                <label>Email/Identifiant</label>
+                                <input type="text" id="chefUsername" placeholder="Email ou identifiant">
+                            </div>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="password" id="chefPassword" placeholder="Mot de passe">
+                            </div>
+                            <div style="display: flex; gap: 10px; align-self: flex-end;">
+                                <button class="btn" onclick="createCompany()">+ Créer</button>
+                                <button class="btn" style="background: #6b7280;" onclick="clearCompanyForm()">Effacer</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="planning-container">
-                        <table class="planning-table">
+                    <div class="form-card">
+                        <h3>Entreprises gérées</h3>
+                        <div class="cards-list" id="companiesList"></div>
+                    </div>
+                </div>
+
+                <!-- PLANNING TAB -->
+                <div id="planning-tab" class="tab-content">
+                    <div class="form-card">
+                        <h3>Planning - <span id="currentCompanyName"></span></h3>
+                        <div style="display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap;">
+                            <button class="btn" onclick="previousWeek()">← Semaine précédente</button>
+                            <span style="color: #333; font-weight: 600; padding: 8px 16px; background: #e0e7ff; border-radius: 6px;" id="weekDisplay">Semaine</span>
+                            <button class="btn" onclick="nextWeek()">Semaine suivante →</button>
+                            <button class="btn" style="background: #10b981;" onclick="printPlanning()">🖨️ Imprimer</button>
+                        </div>
+                    </div>
+
+                    <div style="background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
                             <thead id="tableHead"></thead>
                             <tbody id="tableBody"></tbody>
                         </table>
-                    </div>
-                </div>
-
-                <!-- MESSAGES TAB -->
-                <div id="messages-tab" class="tab-content">
-                    <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px; height: 70vh;">
-                        <!-- Liste des chantiers -->
-                        <div class="form-card" style="margin-bottom: 0; overflow-y: auto;">
-                            <h3>Chantiers</h3>
-                            <div id="chatChannels" style="display: flex; flex-direction: column; gap: 8px;"></div>
-                        </div>
-
-                        <!-- Zone de chat -->
-                        <div class="form-card" style="margin-bottom: 0; display: flex; flex-direction: column;">
-                            <h3 id="chatTitle">Sélectionnez un chantier</h3>
-                            <div id="messagesContainer" style="flex: 1; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; margin-bottom: 15px; background: #f9f9f9;"></div>
-                            <div id="chatInputArea" style="display: none; display: flex; gap: 10px;">
-                                <input type="text" id="messageInput" placeholder="Votre message..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px;">
-                                <button class="btn" onclick="sendMessage()" style="width: auto; padding: 10px 16px;">Envoyer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DOSSIERS TAB -->
-                <div id="dossiers-tab" class="tab-content">
-                    <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px; min-height: 70vh;">
-                        <!-- Liste des chantiers -->
-                        <div class="form-card" style="margin-bottom: 0; overflow-y: auto;">
-                            <h3>Chantiers</h3>
-                            <div id="filesChannels" style="display: flex; flex-direction: column; gap: 8px;"></div>
-                        </div>
-
-                        <!-- Zone de fichiers -->
-                        <div class="form-card" style="margin-bottom: 0; display: flex; flex-direction: column;">
-                            <h3 id="filesTitle">Sélectionnez un chantier</h3>
-                            
-                            <div id="uploadArea" style="display: none; margin-bottom: 15px; padding: 15px; background: #f0f9ff; border: 2px dashed #2563eb; border-radius: 8px; text-align: center;">
-                                <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileUpload()" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx">
-                                <button class="btn" onclick="document.getElementById('fileInput').click()" style="width: 100%; margin-bottom: 10px; font-size: 14px; padding: 12px;">📤 Télécharger des fichiers</button>
-                                <p style="font-size: 12px; color: #666;">PDF, images, documents...</p>
-                            </div>
-
-                            <div id="filesContainer" style="flex: 1; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; background: #f9f9f9;"></div>
-                        </div>
                     </div>
                 </div>
 
@@ -1101,28 +507,25 @@
                 <div id="techniciens-tab" class="tab-content">
                     <div class="form-card">
                         <h3>Ajouter un technicien</h3>
-                        
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Prénom</label>
-                                <input type="text" id="techPrenom" placeholder="Ex: Jean">
+                                <input type="text" id="techPrenom" placeholder="Jean">
                             </div>
-
                             <div class="form-group">
                                 <label>Nom</label>
-                                <input type="text" id="techNom" placeholder="Ex: Dupont">
+                                <input type="text" id="techNom" placeholder="Dupont">
                             </div>
-
                             <div style="display: flex; gap: 10px; align-self: flex-end;">
                                 <button class="btn" onclick="addTechnicien()">+ Ajouter</button>
-                                <button class="btn secondary" onclick="clearTechForm()">Effacer</button>
+                                <button class="btn" style="background: #6b7280;" onclick="clearTechForm()">Effacer</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-card">
                         <h3>Techniciens</h3>
-                        <div class="users-list" id="techList"></div>
+                        <div class="cards-list" id="techList"></div>
                     </div>
                 </div>
 
@@ -1130,23 +533,19 @@
                 <div id="chantiers-tab" class="tab-content">
                     <div class="form-card">
                         <h3>Ajouter un chantier</h3>
-                        
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Nom du chantier</label>
-                                <input type="text" id="chantierName" placeholder="Ex: Rénovation CVC">
+                                <input type="text" id="chantierName" placeholder="Rénovation CVC">
                             </div>
-
                             <div class="form-group">
                                 <label>Adresse</label>
-                                <input type="text" id="chantierAddress" placeholder="Ex: 42 Rue de la Paix">
+                                <input type="text" id="chantierAddress" placeholder="42 Rue de la Paix">
                             </div>
-
                             <div class="form-group">
                                 <label>Durée (jours)</label>
-                                <input type="number" id="chantierDuration" placeholder="Ex: 3" min="0.5" step="0.5">
+                                <input type="number" id="chantierDuration" placeholder="3" min="0.5" step="0.5">
                             </div>
-
                             <div class="form-group">
                                 <label>Type</label>
                                 <select id="chantierType">
@@ -1158,30 +557,55 @@
                                     <option value="Maintenance">Maintenance</option>
                                 </select>
                             </div>
-
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea id="chantierDescription" placeholder="Détails..." style="min-height: 60px;"></textarea>
-                            </div>
-
                             <div style="display: flex; gap: 10px; align-self: flex-end;">
                                 <button class="btn" onclick="addChantier()">+ Ajouter</button>
-                                <button class="btn secondary" onclick="clearChantierForm()">Effacer</button>
+                                <button class="btn" style="background: #6b7280;" onclick="clearChantierForm()">Effacer</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-card">
-                        <h3>Chantiers disponibles</h3>
-                        <div class="users-list" id="chantiersList"></div>
+                        <h3>Chantiers</h3>
+                        <div class="cards-list" id="chantiersList"></div>
                     </div>
                 </div>
 
-                <!-- UTILISATEURS TAB (Admin only) -->
-                <div id="utilisateurs-tab" class="tab-content">
-                    <div class="form-card">
-                        <h3>Gestion des utilisateurs</h3>
-                        <div class="users-list" id="usersList"></div>
+                <!-- MESSAGES TAB -->
+                <div id="messages-tab" class="tab-content">
+                    <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px; height: 70vh;">
+                        <div class="form-card" style="margin-bottom: 0; overflow-y: auto;">
+                            <h3>Chantiers</h3>
+                            <div id="chatChannels" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                        </div>
+
+                        <div class="form-card" style="margin-bottom: 0; display: flex; flex-direction: column;">
+                            <h3 id="chatTitle">Sélectionnez un chantier</h3>
+                            <div id="messagesContainer" style="flex: 1; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; margin-bottom: 15px; background: #f9f9f9;"></div>
+                            <div id="chatInputArea" style="display: none; display: flex; gap: 10px;">
+                                <input type="text" id="messageInput" placeholder="Votre message..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px;">
+                                <button class="btn" onclick="sendMessage()" style="width: auto;">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOSSIERS TAB -->
+                <div id="dossiers-tab" class="tab-content">
+                    <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px; min-height: 70vh;">
+                        <div class="form-card" style="margin-bottom: 0; overflow-y: auto;">
+                            <h3>Chantiers</h3>
+                            <div id="filesChannels" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                        </div>
+
+                        <div class="form-card" style="margin-bottom: 0; display: flex; flex-direction: column;">
+                            <h3 id="filesTitle">Sélectionnez un chantier</h3>
+                            <div id="uploadArea" style="display: none; margin-bottom: 15px; padding: 15px; background: #f0f9ff; border: 2px dashed #2563eb; border-radius: 8px; text-align: center;">
+                                <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileUpload()" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx">
+                                <button class="btn" onclick="document.getElementById('fileInput').click()" style="width: 100%; margin-bottom: 10px;">📤 Télécharger des fichiers</button>
+                                <p style="font-size: 12px; color: #666;">PDF, images, documents...</p>
+                            </div>
+                            <div id="filesContainer" style="flex: 1; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; background: #f9f9f9;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1194,16 +618,11 @@
             <button class="modal-close" onclick="closeAssignModal()">×</button>
             <h3>Assigner le chantier</h3>
             
-            <div id="modalMessage"></div>
-
             <div class="form-grid">
                 <div class="form-group">
                     <label>Technicien *</label>
-                    <select id="modalTech">
-                        <option value="">-- Sélectionner --</option>
-                    </select>
+                    <select id="modalTech"></select>
                 </div>
-
                 <div class="form-group">
                     <label>Date de début *</label>
                     <input type="date" id="modalDate">
@@ -1211,45 +630,31 @@
             </div>
 
             <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; margin: 15px 0;">
-                <label style="font-weight: 600; color: #333; display: block; margin-bottom: 10px;">Jours de la semaine *</label>
-                <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Sélectionnez les jours où le chantier doit être assigné</p>
-                <div class="days-grid">
-                    <div class="day-checkbox">
-                        <input type="checkbox" id="cb-lun" data-day="1">
-                        <label for="cb-lun">Lundi</label>
-                    </div>
-                    <div class="day-checkbox">
-                        <input type="checkbox" id="cb-mar" data-day="2">
-                        <label for="cb-mar">Mardi</label>
-                    </div>
-                    <div class="day-checkbox">
-                        <input type="checkbox" id="cb-mer" data-day="3">
-                        <label for="cb-mer">Mercredi</label>
-                    </div>
-                    <div class="day-checkbox">
-                        <input type="checkbox" id="cb-jeu" data-day="4">
-                        <label for="cb-jeu">Jeudi</label>
-                    </div>
-                    <div class="day-checkbox">
-                        <input type="checkbox" id="cb-ven" data-day="5">
-                        <label for="cb-ven">Vendredi</label>
-                    </div>
+                <label style="font-weight: 600; color: #333;">Jours de la semaine *</label>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px;">
+                    <label><input type="checkbox" data-day="1"> Lundi</label>
+                    <label><input type="checkbox" data-day="2"> Mardi</label>
+                    <label><input type="checkbox" data-day="3"> Mercredi</label>
+                    <label><input type="checkbox" data-day="4"> Jeudi</label>
+                    <label><input type="checkbox" data-day="5"> Vendredi</label>
                 </div>
             </div>
 
             <div class="modal-actions">
-                <button class="btn secondary" onclick="closeAssignModal()">Annuler</button>
+                <button class="btn" style="background: #6b7280;" onclick="closeAssignModal()">Annuler</button>
                 <button class="btn" onclick="confirmAssign()">Assigner</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ===== DONNÉES =====
+        // ===== DATA =====
         let currentUser = null;
+        let currentCompanyId = null;
         let users = [
             { id: 'admin001', username: 'David souton', password: 'zC97LR53&*', firstname: 'David', lastname: 'Souton', role: 'admin' }
         ];
+        let companies = [];
         let technicians = [];
         let chantiers = [];
         let assignations = [];
@@ -1261,42 +666,35 @@
         let currentFilesChantierId = null;
 
         const colors = ['#ef4444', '#f59e0b', '#10b981', '#8b5cf6', '#06b6d4', '#ec4899', '#6366f1', '#14b8a6', '#f97316', '#6b21a8'];
-        const roleLabels = { 'admin': 'Administrateur', 'chef': 'Chef de projet', 'technicien': 'Technicien' };
-        const roleBadges = { 'admin': 'role-admin', 'chef': 'role-chef', 'technicien': 'role-technicien' };
 
-        // ===== LOCAL STORAGE =====
-        function loadAllData() {
-            const storedUsers = localStorage.getItem('users');
-            const storedTechs = localStorage.getItem('technicians');
-            const storedChantiers = localStorage.getItem('chantiers');
-            const storedAssignations = localStorage.getItem('assignations');
-            const storedMessages = localStorage.getItem('messages');
-            const storedFiles = localStorage.getItem('files');
-            
-            if (storedUsers) users = JSON.parse(storedUsers);
-            if (storedTechs) technicians = JSON.parse(storedTechs);
-            if (storedChantiers) chantiers = JSON.parse(storedChantiers);
-            if (storedAssignations) assignations = JSON.parse(storedAssignations);
-            if (storedMessages) messages = JSON.parse(storedMessages);
-            if (storedFiles) files = JSON.parse(storedFiles);
+        // ===== STORAGE =====
+        function loadData() {
+            const stored = localStorage.getItem('planningProData');
+            if (stored) {
+                const data = JSON.parse(stored);
+                users = data.users || users;
+                companies = data.companies || [];
+                technicians = data.technicians || [];
+                chantiers = data.chantiers || [];
+                assignations = data.assignations || [];
+                messages = data.messages || [];
+                files = data.files || [];
+            }
         }
 
-        function saveAllData() {
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('technicians', JSON.stringify(technicians));
-            localStorage.setItem('chantiers', JSON.stringify(chantiers));
-            localStorage.setItem('assignations', JSON.stringify(assignations));
-            localStorage.setItem('messages', JSON.stringify(messages));
-            localStorage.setItem('files', JSON.stringify(files));
+        function saveData() {
+            localStorage.setItem('planningProData', JSON.stringify({
+                users, companies, technicians, chantiers, assignations, messages, files
+            }));
         }
 
-        // ===== AUTHENTIFICATION =====
+        // ===== AUTH =====
         function login() {
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
             const msgDiv = document.getElementById('loginMessage');
 
-            loadAllData();
+            loadData();
 
             const user = users.find(u => u.username === username && u.password === password);
             
@@ -1307,104 +705,160 @@
 
             currentUser = user;
             msgDiv.innerHTML = '';
+            
+            if (user.role === 'admin') {
+                currentCompanyId = null;
+            } else {
+                const company = companies.find(c => c.chefId === user.id);
+                if (!company) {
+                    msgDiv.innerHTML = '<div class="error-msg">Entreprise non trouvée</div>';
+                    return;
+                }
+                currentCompanyId = company.id;
+            }
+            
             showApp();
         }
 
         function logout() {
             currentUser = null;
+            currentCompanyId = null;
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('appPage').style.display = 'none';
             document.getElementById('loginUsername').value = '';
             document.getElementById('loginPassword').value = '';
         }
 
-        function showCreateAccountModal() {
-            if (currentUser && currentUser.role !== 'admin') {
-                alert('Seul un administrateur peut créer des comptes');
-                return;
-            }
-            document.getElementById('signupModal').classList.add('show');
-        }
+        // ===== ADMIN =====
+        function createCompany() {
+            const name = document.getElementById('companyName').value.trim();
+            const firstname = document.getElementById('chefFirstname').value.trim();
+            const lastname = document.getElementById('chefLastname').value.trim();
+            const username = document.getElementById('chefUsername').value.trim();
+            const password = document.getElementById('chefPassword').value;
 
-        function closeSignupModal() {
-            document.getElementById('signupModal').classList.remove('show');
-            document.getElementById('signupUsername').value = '';
-            document.getElementById('signupPassword').value = '';
-            document.getElementById('signupFirstname').value = '';
-            document.getElementById('signupLastname').value = '';
-            document.getElementById('signupRole').value = '';
-        }
-
-        function createAccount() {
-            const username = document.getElementById('signupUsername').value.trim();
-            const password = document.getElementById('signupPassword').value;
-            const firstname = document.getElementById('signupFirstname').value.trim();
-            const lastname = document.getElementById('signupLastname').value.trim();
-            const role = document.getElementById('signupRole').value;
-
-            if (!username || !password || !role) {
-                alert('⚠️ Remplissez les champs obligatoires (utilisateur, mot de passe, rôle)');
+            if (!name || !firstname || !lastname || !username || !password) {
+                alert('⚠️ Remplissez tous les champs');
                 return;
             }
 
             if (users.find(u => u.username === username)) {
-                alert('⚠️ Cet utilisateur existe déjà');
+                alert('⚠️ Cet identifiant existe déjà');
                 return;
             }
 
-            const newUser = {
-                id: 'user' + Date.now(),
+            const chefId = 'chef_' + Date.now();
+            const companyId = 'company_' + Date.now();
+
+            users.push({
+                id: chefId,
                 username,
                 password,
-                firstname: firstname || username,
+                firstname,
                 lastname,
-                role
-            };
+                role: 'chef',
+                companyId
+            });
 
-            users.push(newUser);
-            saveAllData();
-            closeSignupModal();
-            alert('✅ Compte créé avec succès !');
+            companies.push({
+                id: companyId,
+                name,
+                chefId,
+                createdAt: new Date().toISOString()
+            });
+
+            saveData();
+            clearCompanyForm();
+            renderCompaniesList();
+            alert('✅ Entreprise créée ! Le chef peut maintenant se connecter avec : ' + username);
         }
 
-        // ===== AFFICHAGE APP =====
+        function clearCompanyForm() {
+            document.getElementById('companyName').value = '';
+            document.getElementById('chefFirstname').value = '';
+            document.getElementById('chefLastname').value = '';
+            document.getElementById('chefUsername').value = '';
+            document.getElementById('chefPassword').value = '';
+        }
+
+        function renderCompaniesList() {
+            loadData();
+            const list = document.getElementById('companiesList');
+            
+            if (companies.length === 0) {
+                list.innerHTML = '<div class="empty-state">Aucune entreprise créée</div>';
+                return;
+            }
+
+            list.innerHTML = companies.map(company => {
+                const chef = users.find(u => u.id === company.chefId);
+                return `
+                    <div class="card">
+                        <h4>${company.name}</h4>
+                        <p><strong>Chef:</strong> ${chef?.firstname} ${chef?.lastname}</p>
+                        <p><strong>Email:</strong> ${chef?.username}</p>
+                        <button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteCompany('${company.id}')">Supprimer</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteCompany(companyId) {
+            if (!confirm('Êtes-vous sûr ?')) return;
+            
+            const company = companies.find(c => c.id === companyId);
+            users = users.filter(u => u.id !== company.chefId);
+            companies = companies.filter(c => c.id !== companyId);
+            technicians = technicians.filter(t => t.companyId !== companyId);
+            chantiers = chantiers.filter(c => c.companyId !== companyId);
+            
+            saveData();
+            renderCompaniesList();
+        }
+
+        // ===== APP =====
         function showApp() {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('appPage').style.display = 'block';
             
             document.getElementById('currentUser').textContent = currentUser.firstname + ' ' + currentUser.lastname;
-            document.getElementById('roleDisplay').textContent = roleLabels[currentUser.role];
+            document.getElementById('roleDisplay').textContent = currentUser.role === 'admin' ? 'Admin' : 'Chef';
             
-            const createBtn = document.getElementById('createAccountBtn');
-            if (currentUser.role === 'admin') {
-                createBtn.style.display = 'block';
-            }
-
             setupTabs();
-            renderWeek();
+            
+            if (currentUser.role === 'admin') {
+                document.getElementById('pageTitle').textContent = 'Admin - Gestion des Entreprises';
+                document.getElementById('pageSubtitle').textContent = 'Créez et gérez les entreprises';
+                renderCompaniesList();
+            } else {
+                const company = companies.find(c => c.id === currentCompanyId);
+                document.getElementById('pageTitle').textContent = company?.name || 'Planning';
+                document.getElementById('pageSubtitle').textContent = 'Gérez vos chantiers et équipes';
+                document.getElementById('currentCompanyName').textContent = company?.name;
+                renderWeek();
+            }
         }
 
         function setupTabs() {
-            const tabsContainer = document.getElementById('mainTabs');
-            tabsContainer.innerHTML = '';
-            
-            const tabs = [
-                { id: 'planning', label: 'Planning', show: true },
-                { id: 'messages', label: 'Messages', show: true },
-                { id: 'dossiers', label: 'Dossiers', show: true },
-                { id: 'techniciens', label: 'Techniciens', show: ['chef', 'admin'].includes(currentUser.role) },
-                { id: 'chantiers', label: 'Chantiers', show: ['chef', 'admin'].includes(currentUser.role) },
-                { id: 'utilisateurs', label: 'Utilisateurs', show: currentUser.role === 'admin' }
-            ];
+            const container = document.getElementById('mainTabs');
+            container.innerHTML = '';
+
+            const tabs = currentUser.role === 'admin' 
+                ? [{ id: 'admin', label: 'Entreprises' }]
+                : [
+                    { id: 'planning', label: 'Planning' },
+                    { id: 'messages', label: 'Messages' },
+                    { id: 'dossiers', label: 'Dossiers' },
+                    { id: 'techniciens', label: 'Techniciens' },
+                    { id: 'chantiers', label: 'Chantiers' }
+                ];
 
             tabs.forEach(tab => {
-                if (tab.show) {
-                    const btn = document.createElement('button');
-                    btn.className = 'tab-btn' + (tab.id === 'planning' ? ' active' : '');
-                    btn.textContent = tab.label;
-                    btn.onclick = () => switchTab(tab.id);
-                    tabsContainer.appendChild(btn);
-                }
+                const btn = document.createElement('button');
+                btn.className = 'tab-btn' + (tab.id === (currentUser.role === 'admin' ? 'admin' : 'planning') ? ' active' : '');
+                btn.textContent = tab.label;
+                btn.onclick = () => switchTab(tab.id);
+                container.appendChild(btn);
             });
         }
 
@@ -1413,24 +867,15 @@
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName + '-tab').classList.add('active');
             event.target.classList.add('active');
-            
+
             if (tabName === 'planning') renderWeek();
-            else if (tabName === 'messages') renderMessagesTab();
-            else if (tabName === 'dossiers') renderDossiersTab();
             else if (tabName === 'techniciens') renderTechList();
             else if (tabName === 'chantiers') renderChantiersList();
-            else if (tabName === 'utilisateurs') renderUsersList();
+            else if (tabName === 'messages') renderMessagesTab();
+            else if (tabName === 'dossiers') renderDossiersTab();
         }
 
-        // ===== FONCTIONS PLANNING =====
-        function getWeekNumber(date) {
-            const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-            const dayNum = d.getUTCDay() || 7;
-            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-        }
-
+        // ===== PLANNING =====
         function getMonday(date) {
             const d = new Date(date);
             const day = d.getDay();
@@ -1457,67 +902,111 @@
         }
 
         function getTechColor(techId) {
-            const index = technicians.findIndex(t => t.id === techId);
+            const index = technicians.filter(t => t.companyId === currentCompanyId).findIndex(t => t.id === techId);
             return colors[index % colors.length];
         }
 
         function renderWeek() {
-            loadAllData();
+            loadData();
             const week = getWeekDates();
             const today = formatDate(new Date());
-            const weekNum = getWeekNumber(week[0]);
-            const year = week[0].getFullYear();
+            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
+            const companyAssigns = assignations.filter(a => a.companyId === currentCompanyId);
 
             const weekDisplay = document.getElementById('weekDisplay');
-            weekDisplay.textContent = `Semaine ${weekNum}/${year} • ${week[0].toLocaleDateString('fr-FR')} au ${week[4].toLocaleDateString('fr-FR')}`;
+            weekDisplay.textContent = `${week[0].toLocaleDateString('fr-FR')} au ${week[4].toLocaleDateString('fr-FR')}`;
 
             const tableHead = document.getElementById('tableHead');
-            let headerHTML = '<tr><th class="tech-col">Technicien</th>';
-            week.forEach((date) => {
+            let html = '<tr><th style="padding: 12px; text-align: left; background: #f9f9f9; font-weight: 600; width: 150px;">Technicien</th>';
+            week.forEach(date => {
                 const dayName = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'][date.getDay()];
                 const isToday = formatDate(date) === today;
-                headerHTML += `
-                    <th${isToday ? ' style="background: #fef3c7;"' : ''}>
-                        <span style="display: block; font-weight: bold; margin-bottom: 3px;">${dayName}</span>
-                        <span style="display: block; font-size: 11px; color: #999;">${date.getDate()}/${date.getMonth() + 1}</span>
-                    </th>
-                `;
+                html += `<th style="padding: 12px; text-align: center; border: 1px solid #e0e0e0; background: ${isToday ? '#fef3c7' : '#f0f4f8'};"><strong>${dayName}</strong><br>${date.getDate()}/${date.getMonth() + 1}</th>`;
             });
-            headerHTML += '</tr>';
-            tableHead.innerHTML = headerHTML;
+            html += '</tr>';
+            tableHead.innerHTML = html;
 
             const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = technicians.map(tech => {
+            tableBody.innerHTML = companyTechs.map(tech => {
                 const color = getTechColor(tech.id);
+                let row = `<tr><td style="padding: 12px; font-weight: 600; background: #f9f9f9; width: 150px;"><span style="display: inline-block; width: 10px; height: 10px; background: ${color}; border-radius: 50%; margin-right: 8px;"></span>${tech.prenom} ${tech.nom}</td>`;
                 
-                let rowHTML = `<tr>
-                    <td class="tech-col">
-                        <span style="display: inline-block; width: 10px; height: 10px; background: ${color}; border-radius: 50%; margin-right: 8px;"></span>
-                        ${tech.prenom} ${tech.nom}
-                    </td>`;
-                
-                week.forEach((date) => {
+                week.forEach(date => {
                     const dateStr = formatDate(date);
                     const isToday = dateStr === today;
-                    const dayAssignations = assignations.filter(a => a.tech === tech.id && a.date === dateStr);
+                    const dayAssigns = companyAssigns.filter(a => a.tech === tech.id && a.date === dateStr);
                     
-                    rowHTML += `<td style="${isToday ? 'background: #fffbf0;' : ''}">`;
-                    dayAssignations.forEach(a => {
-                        const chantier = chantiers.find(c => c.id === a.chantierId);
-                        if (chantier) {
-                            rowHTML += `
-                                <div class="chantier-item" style="border-color: ${color};" title="${chantier.address}">
-                                    <div class="chantier-item-name">${chantier.nom}</div>
-                                </div>
-                            `;
+                    row += `<td style="padding: 10px; border: 1px solid #e0e0e0; height: 100px; vertical-align: top; background: ${isToday ? '#fffbf0' : 'white'};text-align: center;">`;
+                    dayAssigns.forEach(a => {
+                        const chant = chantiers.find(c => c.id === a.chantierId);
+                        if (chant) {
+                            row += `<div style="background: white; border: 2px solid ${color}; border-radius: 5px; padding: 6px; margin-bottom: 4px; font-size: 11px; font-weight: 600;">${chant.nom}</div>`;
                         }
                     });
-                    rowHTML += '</td>';
+                    row += '</td>';
+                });
+                row += '</tr>';
+                return row;
+            }).join('');
+        }
+
+        function previousWeek() {
+            currentWeekOffset--;
+            renderWeek();
+        }
+
+        function nextWeek() {
+            currentWeekOffset++;
+            renderWeek();
+        }
+
+        function printPlanning() {
+            const week = getWeekDates();
+            const printWindow = window.open('', '', 'height=600,width=900');
+            
+            let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Planning</title>
+            <style>body { font-family: Arial; padding: 20px; } table { width: 100%; border-collapse: collapse; }
+            th, td { border: 1px solid #333; padding: 12px; text-align: left; font-size: 12px; }
+            th { background: #f0f4f8; font-weight: bold; text-align: center; }
+            td { height: 80px; vertical-align: top; } .tech-col { background: #f9f9f9; font-weight: 600; width: 150px; }
+            </style></head><body><h1>Planning</h1><table><thead><tr><th class="tech-col">Technicien</th>`;
+            
+            week.forEach(date => {
+                const dayName = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'][date.getDay()];
+                html += `<th>${dayName.substring(0, 3)}<br>${date.getDate()}/${date.getMonth() + 1}</th>`;
+            });
+            
+            html += '</tr></thead><tbody>';
+            
+            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
+            const companyAssigns = assignations.filter(a => a.companyId === currentCompanyId);
+            
+            companyTechs.forEach(tech => {
+                const color = getTechColor(tech.id);
+                html += `<tr><td class="tech-col">${tech.prenom} ${tech.nom}</td>`;
+                
+                week.forEach(date => {
+                    const dateStr = formatDate(date);
+                    const dayAssigns = companyAssigns.filter(a => a.tech === tech.id && a.date === dateStr);
+                    
+                    html += '<td>';
+                    dayAssigns.forEach(a => {
+                        const chant = chantiers.find(c => c.id === a.chantierId);
+                        if (chant) {
+                            html += `<div style="border-left: 3px solid ${color}; padding-left: 8px; margin-bottom: 6px; font-weight: 600;">${chant.nom}</div>`;
+                        }
+                    });
+                    html += '</td>';
                 });
                 
-                rowHTML += '</tr>';
-                return rowHTML;
-            }).join('');
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table></body></html>';
+            
+            printWindow.document.write(html);
+            printWindow.document.close();
+            setTimeout(() => printWindow.print(), 250);
         }
 
         // ===== TECHNICIENS =====
@@ -1526,20 +1015,19 @@
             const nom = document.getElementById('techNom').value.trim();
 
             if (!prenom || !nom) {
-                alert('⚠️ Veuillez entrer le prénom et le nom');
+                alert('⚠️ Remplissez le prénom et le nom');
                 return;
             }
 
-            const tech = {
+            technicians.push({
                 id: Date.now().toString(),
+                companyId: currentCompanyId,
                 prenom,
                 nom,
                 createdAt: new Date().toISOString()
-            };
+            });
 
-            technicians.push(tech);
-            saveAllData();
-            
+            saveData();
             document.getElementById('techPrenom').value = '';
             document.getElementById('techNom').value = '';
             renderTechList();
@@ -1552,40 +1040,38 @@
         }
 
         function renderTechList() {
-            loadAllData();
+            loadData();
+            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
             const list = document.getElementById('techList');
             
-            if (technicians.length === 0) {
+            if (companyTechs.length === 0) {
                 list.innerHTML = '<div class="empty-state">Aucun technicien</div>';
                 return;
             }
 
-            list.innerHTML = technicians.map(tech => {
-                const color = getTechColor(tech.id);
-                return `
-                    <div class="user-card">
-                        <h4>${tech.prenom} ${tech.nom}</h4>
-                        <button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteTechnicien('${tech.id}')">Supprimer</button>
-                    </div>
-                `;
-            }).join('');
+            list.innerHTML = companyTechs.map(tech => `
+                <div class="card">
+                    <h4>${tech.prenom} ${tech.nom}</h4>
+                    <button class="btn danger" style="width: 100%; padding: 6px;" onclick="deleteTechnicien('${tech.id}')">Supprimer</button>
+                </div>
+            `).join('');
         }
 
         function deleteTechnicien(id) {
-            if (confirm('Supprimer ce technicien ?')) {
-                technicians = technicians.filter(t => t.id !== id);
-                assignations = assignations.filter(a => a.tech !== id);
-                saveAllData();
-                renderTechList();
-                renderWeek();
-            }
+            if (!confirm('Supprimer ce technicien ?')) return;
+            technicians = technicians.filter(t => t.id !== id);
+            assignations = assignations.filter(a => a.tech !== id);
+            saveData();
+            renderTechList();
+            renderWeek();
         }
 
         function updateTechnicienSelect() {
-            loadAllData();
+            loadData();
+            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
             const select = document.getElementById('modalTech');
             select.innerHTML = '<option value="">-- Sélectionner --</option>';
-            technicians.forEach(tech => {
+            companyTechs.forEach(tech => {
                 const option = document.createElement('option');
                 option.value = tech.id;
                 option.textContent = `${tech.prenom} ${tech.nom}`;
@@ -1599,26 +1085,23 @@
             const address = document.getElementById('chantierAddress').value.trim();
             const duration = parseFloat(document.getElementById('chantierDuration').value);
             const type = document.getElementById('chantierType').value;
-            const description = document.getElementById('chantierDescription').value.trim();
 
             if (!nom || !address || !duration || !type) {
-                alert('⚠️ Remplissez tous les champs obligatoires');
+                alert('⚠️ Remplissez tous les champs');
                 return;
             }
 
-            const chantier = {
+            chantiers.push({
                 id: Date.now().toString(),
+                companyId: currentCompanyId,
                 nom,
                 address,
                 duration,
                 type,
-                description,
                 createdAt: new Date().toISOString()
-            };
+            });
 
-            chantiers.push(chantier);
-            saveAllData();
-            
+            saveData();
             clearChantierForm();
             renderChantiersList();
         }
@@ -1628,25 +1111,24 @@
             document.getElementById('chantierAddress').value = '';
             document.getElementById('chantierDuration').value = '';
             document.getElementById('chantierType').value = '';
-            document.getElementById('chantierDescription').value = '';
         }
 
         function renderChantiersList() {
-            loadAllData();
+            loadData();
+            const companyChan = chantiers.filter(c => c.companyId === currentCompanyId);
             const list = document.getElementById('chantiersList');
             
-            if (chantiers.length === 0) {
+            if (companyChan.length === 0) {
                 list.innerHTML = '<div class="empty-state">Aucun chantier</div>';
                 return;
             }
 
-            list.innerHTML = chantiers.map(chantier => `
-                <div class="user-card">
+            list.innerHTML = companyChan.map(chantier => `
+                <div class="card">
                     <h4>${chantier.nom}</h4>
                     <p><strong>Adresse:</strong> ${chantier.address}</p>
                     <p><strong>Durée:</strong> ${chantier.duration} jour(s)</p>
-                    <p><strong>Type:</strong> <span class="role-badge role-chef">${chantier.type}</span></p>
-                    ${chantier.description ? `<p><strong>Notes:</strong> ${chantier.description}</p>` : ''}
+                    <p><span class="badge">${chantier.type}</span></p>
                     <button class="btn" style="width: 100%; margin-bottom: 6px;" onclick="openAssignModal('${chantier.id}')">Assigner</button>
                     <button class="btn danger" style="width: 100%;" onclick="deleteChantier('${chantier.id}')">Supprimer</button>
                 </div>
@@ -1654,18 +1136,16 @@
         }
 
         function openAssignModal(chantierId) {
-            if (technicians.length === 0) {
-                alert('⚠️ Veuillez d\'abord ajouter des techniciens !');
+            const companyTechs = technicians.filter(t => t.companyId === currentCompanyId);
+            if (companyTechs.length === 0) {
+                alert('⚠️ Ajoutez d\'abord des techniciens !');
                 return;
             }
 
             currentChantierID = chantierId;
-            const chantier = chantiers.find(c => c.id === chantierId);
-            
             document.getElementById('modalTech').value = '';
             document.getElementById('modalDate').valueAsDate = new Date();
-            document.querySelectorAll('.day-checkbox input').forEach(cb => cb.checked = false);
-            document.getElementById('modalMessage').innerHTML = `<div class="success-msg">Assignation: <strong>${chantier.nom}</strong></div>`;
+            document.querySelectorAll('[data-day]').forEach(cb => cb.checked = false);
             
             document.getElementById('assignModal').classList.add('show');
         }
@@ -1677,7 +1157,7 @@
         function confirmAssign() {
             const tech = document.getElementById('modalTech').value;
             const dateStr = document.getElementById('modalDate').value;
-            const selectedDays = Array.from(document.querySelectorAll('.day-checkbox input:checked')).map(cb => parseInt(cb.getAttribute('data-day')));
+            const selectedDays = Array.from(document.querySelectorAll('[data-day]:checked')).map(cb => parseInt(cb.getAttribute('data-day')));
 
             if (!tech || !dateStr || selectedDays.length === 0) {
                 alert('⚠️ Remplissez tous les champs');
@@ -1693,7 +1173,8 @@
 
                 if (selectedDays.includes(dayOfWeek)) {
                     assignations.push({
-                        id: Date.now().toString() + '_' + i + '_' + Math.random(),
+                        id: Date.now().toString() + Math.random(),
+                        companyId: currentCompanyId,
                         chantierId: currentChantierID,
                         tech: tech,
                         date: formatDate(date)
@@ -1701,122 +1182,40 @@
                 }
             }
 
-            saveAllData();
+            saveData();
             closeAssignModal();
             renderWeek();
         }
 
         function deleteChantier(id) {
-            if (confirm('Supprimer ce chantier ?')) {
-                chantiers = chantiers.filter(c => c.id !== id);
-                assignations = assignations.filter(a => a.chantierId !== id);
-                saveAllData();
-                renderChantiersList();
-                renderWeek();
-            }
-        }
-
-        function previousWeek() {
-            currentWeekOffset--;
+            if (!confirm('Supprimer ce chantier ?')) return;
+            chantiers = chantiers.filter(c => c.id !== id);
+            assignations = assignations.filter(a => a.chantierId !== id);
+            saveData();
+            renderChantiersList();
             renderWeek();
-        }
-
-        function nextWeek() {
-            currentWeekOffset++;
-            renderWeek();
-        }
-
-        function printPlanning() {
-            const week = getWeekDates();
-            const weekNum = getWeekNumber(week[0]);
-            const year = week[0].getFullYear();
-            
-            const printWindow = window.open('', '', 'height=600,width=900');
-            
-            let html = `
-                <!DOCTYPE html>
-                <html lang="fr">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Planning Semaine ${weekNum}/${year}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 20px; }
-                        h1 { text-align: center; margin-bottom: 10px; }
-                        .week-info { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
-                        table { width: 100%; border-collapse: collapse; }
-                        th, td { border: 1px solid #333; padding: 12px; text-align: left; font-size: 12px; }
-                        th { background: #f0f4f8; font-weight: bold; text-align: center; }
-                        td { height: 80px; vertical-align: top; }
-                        .tech-col { background: #f9f9f9; font-weight: 600; width: 150px; }
-                        .chantier-item { border-left: 3px solid; padding-left: 8px; margin-bottom: 6px; font-weight: 600; }
-                    </style>
-                </head>
-                <body>
-                    <h1>📅 Planning</h1>
-                    <div class="week-info">Semaine ${weekNum}/${year}</div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="tech-col">Technicien</th>
-            `;
-            
-            week.forEach((date) => {
-                const dayName = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'][date.getDay()];
-                html += `<th>${dayName.substring(0, 3)}<br>${date.getDate()}/${date.getMonth() + 1}</th>`;
-            });
-            
-            html += `</tr></thead><tbody>`;
-            
-            technicians.forEach(tech => {
-                const color = getTechColor(tech.id);
-                html += `<tr><td class="tech-col">${tech.prenom} ${tech.nom}</td>`;
-                
-                week.forEach((date) => {
-                    const dateStr = formatDate(date);
-                    const dayAssignations = assignations.filter(a => a.tech === tech.id && a.date === dateStr);
-                    
-                    html += '<td>';
-                    dayAssignations.forEach(a => {
-                        const chantier = chantiers.find(c => c.id === a.chantierId);
-                        if (chantier) {
-                            html += `<div class="chantier-item" style="border-left-color: ${color};">${chantier.nom}</div>`;
-                        }
-                    });
-                    html += '</td>';
-                });
-                
-                html += '</tr>';
-            });
-            
-            html += `</tbody></table></body></html>`;
-            
-            printWindow.document.write(html);
-            printWindow.document.close();
-            setTimeout(() => { printWindow.print(); }, 250);
         }
 
         // ===== MESSAGES =====
         function renderMessagesTab() {
-            loadAllData();
-            const channelsContainer = document.getElementById('chatChannels');
+            loadData();
+            const companyChan = chantiers.filter(c => c.companyId === currentCompanyId);
+            const container = document.getElementById('chatChannels');
             
-            if (chantiers.length === 0) {
-                channelsContainer.innerHTML = '<div class="empty-state" style="padding: 20px 0;">Aucun chantier</div>';
+            if (companyChan.length === 0) {
+                container.innerHTML = '<div class="empty-state">Aucun chantier</div>';
                 return;
             }
 
-            channelsContainer.innerHTML = chantiers.map(chantier => `
-                <button 
-                    class="btn" 
-                    style="width: 100%; text-align: left; padding: 10px; background: ${currentChatChantierId === chantier.id ? '#1d4ed8' : '#6b7280'};" 
-                    onclick="openChat('${chantier.id}')">
+            container.innerHTML = companyChan.map(chantier => `
+                <button class="btn" style="width: 100%; text-align: left; padding: 10px; background: ${currentChatChantierId === chantier.id ? '#1d4ed8' : '#6b7280'};" onclick="openChat('${chantier.id}')">
                     📍 ${chantier.nom}
                 </button>
             `).join('');
         }
 
         function openChat(chantierId) {
-            loadAllData();
+            loadData();
             currentChatChantierId = chantierId;
             const chantier = chantiers.find(c => c.id === chantierId);
             
@@ -1828,12 +1227,12 @@
         }
 
         function renderMessages() {
-            loadAllData();
+            loadData();
             const container = document.getElementById('messagesContainer');
-            const chatMessages = messages.filter(m => m.chantierId === currentChatChantierId);
+            const chatMessages = messages.filter(m => m.companyId === currentCompanyId && m.chantierId === currentChatChantierId);
             
             if (chatMessages.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">Aucun message. Soyez le premier à écrire !</div>';
+                container.innerHTML = '<div style="text-align: center; color: #999;">Aucun message</div>';
                 return;
             }
 
@@ -1845,9 +1244,9 @@
                 return `
                     <div style="margin-bottom: 15px; ${isCurrentUser ? 'text-align: right;' : ''}">
                         <div style="display: inline-block; max-width: 70%; ${isCurrentUser ? 'background: #2563eb; color: white;' : 'background: white; border: 1px solid #ddd;'} padding: 10px; border-radius: 8px;">
-                            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; ${isCurrentUser ? 'opacity: 0.9;' : 'color: #666;'}">${sender ? sender.firstname + ' ' + sender.lastname : 'Utilisateur supprimé'}</div>
-                            <div style="font-size: 14px; margin-bottom: 4px;">${msg.text}</div>
-                            <div style="font-size: 11px; ${isCurrentUser ? 'opacity: 0.8;' : 'color: #999;'}">${time}</div>
+                            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; ${isCurrentUser ? 'opacity: 0.9;' : 'color: #666;'}\">${sender?.firstname} ${sender?.lastname}</div>
+                            <div>${msg.text}</div>
+                            <div style="font-size: 11px; ${isCurrentUser ? 'opacity: 0.8;' : 'color: #999;'} margin-top: 4px;">${time}</div>
                         </div>
                     </div>
                 `;
@@ -1858,54 +1257,49 @@
 
         function sendMessage() {
             if (!currentChatChantierId) {
-                alert('⚠️ Sélectionnez un chantier');
+                alert('Sélectionnez un chantier');
                 return;
             }
 
-            const messageInput = document.getElementById('messageInput');
-            const text = messageInput.value.trim();
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
 
-            if (!text) {
-                alert('⚠️ Écrivez un message');
-                return;
-            }
+            if (!text) return;
 
-            const msg = {
+            messages.push({
                 id: Date.now().toString(),
+                companyId: currentCompanyId,
                 chantierId: currentChatChantierId,
                 userId: currentUser.id,
                 text: text,
                 timestamp: new Date().toISOString()
-            };
+            });
 
-            messages.push(msg);
-            saveAllData();
-            messageInput.value = '';
+            saveData();
+            input.value = '';
             renderMessages();
         }
 
-        // ===== DOSSIERS/FICHIERS =====
+        // ===== DOSSIERS =====
         function renderDossiersTab() {
-            loadAllData();
-            const channelsContainer = document.getElementById('filesChannels');
+            loadData();
+            const companyChan = chantiers.filter(c => c.companyId === currentCompanyId);
+            const container = document.getElementById('filesChannels');
             
-            if (chantiers.length === 0) {
-                channelsContainer.innerHTML = '<div class="empty-state" style="padding: 20px 0;">Aucun chantier</div>';
+            if (companyChan.length === 0) {
+                container.innerHTML = '<div class="empty-state">Aucun chantier</div>';
                 return;
             }
 
-            channelsContainer.innerHTML = chantiers.map(chantier => `
-                <button 
-                    class="btn" 
-                    style="width: 100%; text-align: left; padding: 10px; background: ${currentFilesChantierId === chantier.id ? '#1d4ed8' : '#6b7280'};" 
-                    onclick="openFilesChat('${chantier.id}')">
+            container.innerHTML = companyChan.map(chantier => `
+                <button class="btn" style="width: 100%; text-align: left; padding: 10px; background: ${currentFilesChantierId === chantier.id ? '#1d4ed8' : '#6b7280'};" onclick="openFilesChat('${chantier.id}')">
                     📁 ${chantier.nom}
                 </button>
             `).join('');
         }
 
         function openFilesChat(chantierId) {
-            loadAllData();
+            loadData();
             currentFilesChantierId = chantierId;
             const chantier = chantiers.find(c => c.id === chantierId);
             
@@ -1918,15 +1312,16 @@
 
         function handleFileUpload() {
             const fileInput = document.getElementById('fileInput');
-            const files_list = fileInput.files;
+            const filesList = fileInput.files;
 
-            if (files_list.length === 0) return;
+            if (filesList.length === 0) return;
 
-            for (let file of files_list) {
+            for (let file of filesList) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const fileData = {
+                    files.push({
                         id: Date.now().toString() + Math.random(),
+                        companyId: currentCompanyId,
                         chantierId: currentFilesChantierId,
                         name: file.name,
                         type: file.type,
@@ -1934,10 +1329,8 @@
                         data: e.target.result,
                         uploadedAt: new Date().toISOString(),
                         uploadedBy: currentUser.firstname + ' ' + currentUser.lastname
-                    };
-                    
-                    files.push(fileData);
-                    saveAllData();
+                    });
+                    saveData();
                     renderFiles();
                 };
                 reader.readAsDataURL(file);
@@ -1947,34 +1340,28 @@
         }
 
         function renderFiles() {
-            loadAllData();
+            loadData();
             const container = document.getElementById('filesContainer');
-            const chantiersFiles = files.filter(f => f.chantierId === currentFilesChantierId);
+            const chanterFiles = files.filter(f => f.companyId === currentCompanyId && f.chantierId === currentFilesChantierId);
             
-            if (chantiersFiles.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">Aucun fichier. Téléchargez vos plans, documents...</div>';
+            if (chanterFiles.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #999;">Aucun fichier</div>';
                 return;
             }
 
-            container.innerHTML = chantiersFiles.map(file => {
+            container.innerHTML = chanterFiles.map(file => {
                 const uploadDate = new Date(file.uploadedAt).toLocaleDateString('fr-FR');
                 const sizeKB = (file.size / 1024).toFixed(2);
                 const icon = file.type.includes('image') ? '🖼️' : file.type.includes('pdf') ? '📄' : '📎';
                 
                 return `
-                    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #333; margin-bottom: 4px;">
-                                ${icon} ${file.name}
-                            </div>
-                            <div style="font-size: 12px; color: #666;">
-                                ${sizeKB} KB • Ajouté par ${file.uploadedBy} le ${uploadDate}
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
+                    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+                        <div style="font-weight: 600; color: #333; margin-bottom: 4px;">${icon} ${file.name}</div>
+                        <div style="font-size: 12px; color: #666; margin-bottom: 10px;">${sizeKB} KB • ${file.uploadedBy} • ${uploadDate}</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                             <a href="${file.data}" download="${file.name}" class="btn" style="width: auto; padding: 6px 12px; font-size: 12px; margin: 0;">⬇️ Télécharger</a>
                             <a href="${file.data}" target="_blank" class="btn" style="width: auto; padding: 6px 12px; font-size: 12px; margin: 0; background: #10b981;">👁️ Ouvrir</a>
-                            <button class="btn danger" style="width: auto; padding: 6px 12px; font-size: 12px;" onclick="deleteFile('${file.id}')">🗑️</button>
+                            <button class="btn danger" style="width: auto; padding: 6px 12px; font-size: 12px; margin: 0;" onclick="deleteFile('${file.id}')">🗑️</button>
                         </div>
                     </div>
                 `;
@@ -1982,51 +1369,29 @@
         }
 
         function deleteFile(fileId) {
-            if (confirm('Supprimer ce fichier ?')) {
-                files = files.filter(f => f.id !== fileId);
-                saveAllData();
-                renderFiles();
-            }
+            if (!confirm('Supprimer ce fichier ?')) return;
+            files = files.filter(f => f.id !== fileId);
+            saveData();
+            renderFiles();
         }
 
-        // ===== UTILISATEURS =====
-        function renderUsersList() {
-            loadAllData();
-            const list = document.getElementById('usersList');
-            
-            list.innerHTML = users.map(user => `
-                <div class="user-card">
-                    <h4>${user.firstname} ${user.lastname}</h4>
-                    <p><strong>Utilisateur:</strong> ${user.username}</p>
-                    <span class="role-badge ${roleBadges[user.role]}">${roleLabels[user.role]}</span>
-                    ${currentUser.role === 'admin' && user.id !== currentUser.id ? `
-                        <button class="btn danger" style="width: 100%; margin-top: 10px;" onclick="deleteUser('${user.id}')">Supprimer</button>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-
-        function deleteUser(id) {
-            if (confirm('Supprimer cet utilisateur ?')) {
-                users = users.filter(u => u.id !== id);
-                saveAllData();
-                renderUsersList();
-            }
-        }
-
-        // INIT
-        document.addEventListener('click', (e) => {
-            if (e.target.id === 'assignModal') closeAssignModal();
-        });
-
+        // ===== INIT =====
         document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && (e.target.id === 'loginUsername' || e.target.id === 'loginPassword')) {
+                e.preventDefault();
+                login();
+            }
             if (e.key === 'Enter' && e.target.id === 'messageInput') {
                 e.preventDefault();
                 sendMessage();
             }
         });
 
-        loadAllData();
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'assignModal') closeAssignModal();
+        });
+
+        loadData();
     </script>
 </body>
 </html>
